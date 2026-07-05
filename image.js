@@ -206,11 +206,19 @@ function initImageEditor() {
     });
 
     btnReset.addEventListener('click', () => {
-        if (confirm('Bạn có chắc chắn muốn khôi phục ảnh về trạng thái ban đầu?')) {
+        const executeReset = () => {
             resetToDefaults();
             setupCanvasDimensions();
             renderImage();
             window.showToast('Đã khôi phục ảnh gốc.', 'warning');
+        };
+
+        if (window.showCustomConfirm) {
+            window.showCustomConfirm('Bạn có chắc chắn muốn khôi phục ảnh về trạng thái ban đầu?', executeReset, null, 'Khôi phục', 'Hủy');
+        } else {
+            if (confirm('Bạn có chắc chắn muốn khôi phục ảnh về trạng thái ban đầu?')) {
+                executeReset();
+            }
         }
     });
 

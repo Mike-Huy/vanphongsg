@@ -855,6 +855,21 @@
         </div>
     </div>
 
+    <!-- Custom Confirm Modal -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content" style="max-width: 420px; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg);">
+            <div class="modal-body" style="padding: 30px 24px; text-align: center;">
+                <p id="confirm-modal-message" style="font-size: 1.35rem; line-height: 1.6; color: var(--text-dark); margin: 0; font-weight: 500;">
+                    Bạn đang chuyển sang văn bản khác ! Nội dung hiện tại sẽ bị mất. Bạn muốn tiếp tục ?
+                </p>
+            </div>
+            <div class="modal-footer" style="padding: 15px 24px; gap: 12px; justify-content: center; background: #f8fafc; border-top: 1px solid var(--border-color); border-bottom-left-radius: var(--border-radius-lg); border-bottom-right-radius: var(--border-radius-lg);">
+                <button class="btn btn-secondary" id="confirm-modal-btn-cancel" style="min-width: 100px; padding: 8px 20px; font-size: 1.1rem; font-weight: 600;">Ở lại</button>
+                <button class="btn btn-primary" id="confirm-modal-btn-ok" style="min-width: 100px; padding: 8px 20px; font-size: 1.1rem; font-weight: 600;">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Notification Toast -->
     <div id="toast" class="toast">
         <span id="toast-message">Đã lưu thành công!</span>

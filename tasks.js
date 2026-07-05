@@ -146,7 +146,7 @@ function initTaskManager() {
 
     // Delete Task
     window.deleteTask = function(id) {
-        if (confirm('Xóa công việc này khỏi danh sách?')) {
+        const executeDelete = () => {
             if (window.syncDeleteTask) {
                 window.syncDeleteTask(id).then(() => {
                     tasks = tasks.filter(task => task.id !== id);
@@ -158,6 +158,14 @@ function initTaskManager() {
                 localStorage.setItem('vpsg-tasks', JSON.stringify(tasks));
                 renderTasks();
                 window.showToast('Đã xóa công việc.', 'warning');
+            }
+        };
+
+        if (window.showCustomConfirm) {
+            window.showCustomConfirm('Xóa công việc này khỏi danh sách?', executeDelete, null, 'Xóa', 'Hủy');
+        } else {
+            if (confirm('Xóa công việc này khỏi danh sách?')) {
+                executeDelete();
             }
         }
     };

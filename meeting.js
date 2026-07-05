@@ -123,9 +123,8 @@ function initMeetingMinutes() {
         });
     });
 
-    // Clear Meeting Form
     btnClear.addEventListener('click', () => {
-        if (confirm('Bạn có chắc chắn muốn xóa và làm mới biểu mẫu biên bản?')) {
+        const executeClear = () => {
             form.reset();
             actionItemsTbody.innerHTML = '';
             addActionRow(); // add one empty row
@@ -136,6 +135,14 @@ function initMeetingMinutes() {
             inputDate.value = t.toISOString().slice(0, 16);
 
             window.showToast('Đã làm mới biểu mẫu biên bản!', 'warning');
+        };
+
+        if (window.showCustomConfirm) {
+            window.showCustomConfirm('Bạn có chắc chắn muốn xóa và làm mới biểu mẫu biên bản?', executeClear, null, 'Làm mới', 'Hủy');
+        } else {
+            if (confirm('Bạn có chắc chắn muốn xóa và làm mới biểu mẫu biên bản?')) {
+                executeClear();
+            }
         }
     });
 
@@ -225,31 +232,36 @@ function initMeetingMinutes() {
         }
     };
 
-    // Delete meeting details from saved list
     window.deleteMeetingMinutes = function(e, id) {
         e.stopPropagation(); // prevent loading
-        if (confirm('Xóa biên bản này khỏi bộ nhớ lưu trữ?')) {
-            const performDelete = async () => {
-                if (window.syncDeleteMeeting) {
-                    await window.syncDeleteMeeting(id);
-                } else {
-                    let saved = JSON.parse(localStorage.getItem('vpsg-meetings')) || [];
-                    saved = saved.filter(m => m.id !== id);
-                    localStorage.setItem('vpsg-meetings', JSON.stringify(saved));
-                }
-                
-                // If active is deleted, reset
-                if (form.getAttribute('data-active-id') === id) {
-                    form.removeAttribute('data-active-id');
-                    form.reset();
-                    actionItemsTbody.innerHTML = '';
-                    addActionRow();
-                }
+        
+        const performDelete = async () => {
+            if (window.syncDeleteMeeting) {
+                await window.syncDeleteMeeting(id);
+            } else {
+                let saved = JSON.parse(localStorage.getItem('vpsg-meetings')) || [];
+                saved = saved.filter(m => m.id !== id);
+                localStorage.setItem('vpsg-meetings', JSON.stringify(saved));
+            }
+            
+            // If active is deleted, reset
+            if (form.getAttribute('data-active-id') === id) {
+                form.removeAttribute('data-active-id');
+                form.reset();
+                actionItemsTbody.innerHTML = '';
+                addActionRow();
+            }
 
-                renderSavedMeetingsList();
-                window.showToast('Đã xóa biên bản thành công!', 'warning');
-            };
-            performDelete();
+            renderSavedMeetingsList();
+            window.showToast('Đã xóa biên bản thành công!', 'warning');
+        };
+
+        if (window.showCustomConfirm) {
+            window.showCustomConfirm('Xóa biên bản này khỏi bộ nhớ lưu trữ?', performDelete, null, 'Xóa', 'Hủy');
+        } else {
+            if (confirm('Xóa biên bản này khỏi bộ nhớ lưu trữ?')) {
+                performDelete();
+            }
         }
     };
 

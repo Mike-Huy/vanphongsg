@@ -7,6 +7,32 @@ document.addEventListener('DOMContentLoaded', () => {
     initEditor();
 });
 
+// Custom Confirmation Dialog
+function showCustomConfirm(message, onConfirm, onCancel, confirmText = 'Đồng ý', cancelText = 'Ở lại') {
+    const modal = document.getElementById('confirm-modal');
+    const msgEl = document.getElementById('confirm-modal-message');
+    const btnOk = document.getElementById('confirm-modal-btn-ok');
+    const btnCancel = document.getElementById('confirm-modal-btn-cancel');
+    
+    if (!modal || !msgEl || !btnOk || !btnCancel) return;
+    
+    msgEl.textContent = message;
+    btnOk.textContent = confirmText;
+    btnCancel.textContent = cancelText;
+    modal.classList.add('show');
+    
+    btnOk.onclick = () => {
+        modal.classList.remove('show');
+        if (onConfirm) onConfirm();
+    };
+    
+    btnCancel.onclick = () => {
+        modal.classList.remove('show');
+        if (onCancel) onCancel();
+    };
+}
+window.showCustomConfirm = showCustomConfirm;
+
 // Templates Data
 const EDITOR_TEMPLATES = {
     'don-xin-nghi-phep': `
@@ -449,6 +475,7 @@ function initEditor() {
     const btnCopy = document.getElementById('btn-editor-copy');
     const btnPrint = document.getElementById('btn-editor-print');
     const btnDownload = document.getElementById('btn-editor-download');
+    const fontFamilySelect = document.getElementById('font-family-select');
     
     const textColorPicker = document.getElementById('text-color');
     const bgColorPicker = document.getElementById('bg-color');
@@ -489,15 +516,16 @@ function initEditor() {
                 editor.classList.add('landscape-mode');
                 editor.style.fontFamily = "'Times New Roman', Times, serif";
                 if (templateSelect) templateSelect.value = 'anh-tai-cau-long';
-                const fontFamilySelect = document.getElementById('font-family-select');
                 if (fontFamilySelect) fontFamilySelect.value = "'Times New Roman', Times, serif";
             } else {
                 editor.classList.remove('landscape-mode');
                 editor.style.fontFamily = "'Tahoma', 'Segoe UI', sans-serif";
-                const fontFamilySelect = document.getElementById('font-family-select');
                 if (fontFamilySelect) fontFamilySelect.value = "'Tahoma', 'Segoe UI', sans-serif";
             }
             updateCounts();
+        }
+        if (templateSelect) {
+            templateSelect.dataset.prevValue = templateSelect.value;
         }
     };
     loadSaved();
@@ -568,43 +596,55 @@ function initEditor() {
     // Handle Document Templates
     templateSelect.addEventListener('change', (e) => {
         const value = e.target.value;
-        const fontFamilySelect = document.getElementById('font-family-select');
-        if (value === 'empty') {
-            if (confirm('Bạn có chắc chắn muốn tạo văn bản trống mới? Nội dung hiện tại sẽ bị xóa.')) {
-                editor.innerHTML = '<p>Bắt đầu viết...</p>';
-                editor.classList.remove('landscape-mode');
-                editor.style.fontFamily = "'Tahoma', 'Segoe UI', sans-serif";
-                if (fontFamilySelect) fontFamilySelect.value = "'Tahoma', 'Segoe UI', sans-serif";
-                updateCounts();
-                triggerAutoSave();
-            }
-        } else if (EDITOR_TEMPLATES[value]) {
-            if (confirm('Tải mẫu văn bản mới? Nội dung hiện tại trong khung soạn thảo sẽ bị thay thế.')) {
-                editor.innerHTML = EDITOR_TEMPLATES[value];
-                if (value === 'anh-tai-cau-long') {
-                    editor.classList.add('landscape-mode');
-                    editor.style.fontFamily = "'Times New Roman', Times, serif";
-                    if (fontFamilySelect) fontFamilySelect.value = "'Times New Roman', Times, serif";
-                } else {
+        showCustomConfirm(
+            'Bạn đang chuyển sang văn bản khác ! Nội dung hiện tại sẽ bị mất. Bạn muốn tiếp tục ?',
+            () => {
+                templateSelect.dataset.prevValue = value;
+                if (value === 'empty') {
+                    editor.innerHTML = '<p>Bắt đầu viết...</p>';
                     editor.classList.remove('landscape-mode');
                     editor.style.fontFamily = "'Tahoma', 'Segoe UI', sans-serif";
                     if (fontFamilySelect) fontFamilySelect.value = "'Tahoma', 'Segoe UI', sans-serif";
+                    updateCounts();
+                    triggerAutoSave();
+                } else if (EDITOR_TEMPLATES[value]) {
+                    editor.innerHTML = EDITOR_TEMPLATES[value];
+                    if (value === 'anh-tai-cau-long') {
+                        editor.classList.add('landscape-mode');
+                        editor.style.fontFamily = "'Times New Roman', Times, serif";
+                        if (fontFamilySelect) fontFamilySelect.value = "'Times New Roman', Times, serif";
+                    } else {
+                        editor.classList.remove('landscape-mode');
+                        editor.style.fontFamily = "'Tahoma', 'Segoe UI', sans-serif";
+                        if (fontFamilySelect) fontFamilySelect.value = "'Tahoma', 'Segoe UI', sans-serif";
+                    }
+                    updateCounts();
+                    triggerAutoSave();
+                    window.showToast('Đã tải mẫu văn bản thành công!');
                 }
-                updateCounts();
-                triggerAutoSave();
-                window.showToast('Đã tải mẫu văn bản thành công!');
-            }
-        }
+            },
+            () => {
+                templateSelect.value = templateSelect.dataset.prevValue || 'empty';
+            },
+            'Đồng ý',
+            'Ở lại'
+        );
     });
 
     // Clear Workspace
     btnClear.addEventListener('click', () => {
-        if (confirm('Bạn có chắc chắn muốn xóa toàn bộ nội dung văn bản này?')) {
-            editor.innerHTML = '<p><br></p>';
-            updateCounts();
-            triggerAutoSave();
-            window.showToast('Đã xóa toàn bộ nội dung!', 'warning');
-        }
+        showCustomConfirm(
+            'Bạn có chắc chắn muốn xóa toàn bộ nội dung văn bản này?',
+            () => {
+                editor.innerHTML = '<p><br></p>';
+                updateCounts();
+                triggerAutoSave();
+                window.showToast('Đã xóa toàn bộ nội dung!', 'warning');
+            },
+            null,
+            'Đồng ý',
+            'Ở lại'
+        );
     });
 
     // Copy Content
@@ -725,7 +765,6 @@ function initEditor() {
     });
 
     // Font Family selection
-    const fontFamilySelect = document.getElementById('font-family-select');
     if (fontFamilySelect) {
         fontFamilySelect.addEventListener('change', (e) => {
             const font = e.target.value;
@@ -763,17 +802,26 @@ function initEditor() {
             // Check if there is an active table, if not prompt
             const table = editor.querySelector('table');
             if (!table) {
-                if (confirm('Tính năng này sẽ tự động tải mẫu bảng "anh Tài - cầu lông" trước khi nhập Excel. Bạn có đồng ý không?')) {
-                    editor.innerHTML = EDITOR_TEMPLATES['anh-tai-cau-long'];
-                    editor.classList.add('landscape-mode');
-                    if (templateSelect) templateSelect.value = 'anh-tai-cau-long';
-                    if (fontFamilySelect) fontFamilySelect.value = "'Times New Roman', Times, serif";
-                    editor.style.fontFamily = "'Times New Roman', Times, serif";
-                } else {
-                    return;
-                }
+                showCustomConfirm(
+                    'Tính năng này sẽ tự động tải mẫu bảng "anh Tài - cầu lông" trước khi nhập Excel. Bạn có đồng ý không?',
+                    () => {
+                        editor.innerHTML = EDITOR_TEMPLATES['anh-tai-cau-long'];
+                        editor.classList.add('landscape-mode');
+                        if (templateSelect) {
+                            templateSelect.value = 'anh-tai-cau-long';
+                            templateSelect.dataset.prevValue = 'anh-tai-cau-long';
+                        }
+                        if (fontFamilySelect) fontFamilySelect.value = "'Times New Roman', Times, serif";
+                        editor.style.fontFamily = "'Times New Roman', Times, serif";
+                        excelUploadInput.click();
+                    },
+                    null,
+                    'Đồng ý',
+                    'Ở lại'
+                );
+            } else {
+                excelUploadInput.click();
             }
-            excelUploadInput.click();
         });
 
         excelUploadInput.addEventListener('change', (e) => {
@@ -887,29 +935,35 @@ function initEditor() {
 
     if (btnClearAllData) {
         btnClearAllData.addEventListener('click', () => {
-            if (confirm('Bạn có chắc chắn muốn xóa TOÀN BỘ dữ liệu trong bảng hiện tại không? Hành động này không thể hoàn tác.')) {
-                currentModalData = [];
-                
-                // Clear the table body in the editor using generateTableHtml
-                const tableHtml = generateTableHtml([]);
-                const dataTable = editor.querySelector('table.doc-data-table') || editor.querySelector('table:has(thead)');
-                const tbody = dataTable ? dataTable.querySelector('tbody') : null;
-                if (tbody) {
-                    tbody.innerHTML = tableHtml;
-                }
-                
-                // Update stats and trigger autosave
-                updateCounts();
-                triggerAutoSave();
-                
-                // Refresh modal grid
-                populateFilterOptions([]);
-                renderModalGridFiltered();
-                
-                if (window.showToast) {
-                    window.showToast("Đã xóa toàn bộ dữ liệu thành công!");
-                }
-            }
+            showCustomConfirm(
+                'Bạn có chắc chắn muốn xóa TOÀN BỘ dữ liệu trong bảng hiện tại không? Hành động này không thể hoàn tác.',
+                () => {
+                    currentModalData = [];
+                    
+                    // Clear the table body in the editor using generateTableHtml
+                    const tableHtml = generateTableHtml([]);
+                    const dataTable = editor.querySelector('table.doc-data-table') || editor.querySelector('table:has(thead)');
+                    const tbody = dataTable ? dataTable.querySelector('tbody') : null;
+                    if (tbody) {
+                        tbody.innerHTML = tableHtml;
+                    }
+                    
+                    // Update stats and trigger autosave
+                    updateCounts();
+                    triggerAutoSave();
+                    
+                    // Refresh modal grid
+                    populateFilterOptions([]);
+                    renderModalGridFiltered();
+                    
+                    if (window.showToast) {
+                        window.showToast("Đã xóa toàn bộ dữ liệu thành công!");
+                    }
+                },
+                null,
+                'Xóa',
+                'Hủy'
+            );
         });
     }
 
@@ -1125,9 +1179,15 @@ function renderModalGridFiltered() {
     tbody.querySelectorAll('.btn-delete-row').forEach(btn => {
         btn.addEventListener('click', () => {
             const idx = parseInt(btn.getAttribute('data-index'));
-            if (confirm('Bạn có chắc chắn muốn xóa dòng dữ liệu này không?')) {
-                deleteGridRow(idx);
-            }
+            showCustomConfirm(
+                'Bạn có chắc chắn muốn xóa dòng dữ liệu này không?',
+                () => {
+                    deleteGridRow(idx);
+                },
+                null,
+                'Xóa',
+                'Hủy'
+            );
         });
     });
 }

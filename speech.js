@@ -152,10 +152,19 @@ function initSpeechRecognition() {
 
     btnClear.addEventListener('click', () => {
         if (!resultArea.value.trim()) return;
-        if (confirm('Xóa sạch văn bản nhận dạng được?')) {
+
+        const executeClear = () => {
             finalTranscript = '';
             resultArea.value = '';
             window.showToast('Đã xóa văn bản.', 'warning');
+        };
+
+        if (window.showCustomConfirm) {
+            window.showCustomConfirm('Xóa sạch văn bản nhận dạng được?', executeClear, null, 'Xóa', 'Hủy');
+        } else {
+            if (confirm('Xóa sạch văn bản nhận dạng được?')) {
+                executeClear();
+            }
         }
     });
 }

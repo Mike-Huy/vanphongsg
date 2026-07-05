@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Văn phòng Sài Gòn - Tiện ích Hành chính Văn phòng</title>
+    <!-- Meta SEO -->
+    <meta name="description" content="Văn phòng Sài Gòn - Bộ công cụ tiện ích tối ưu dành cho dân văn phòng. Hỗ trợ soạn thảo văn bản, chuyển âm thanh thành văn bản, biên bản cuộc họp, chỉnh sửa ảnh và chữ ký điện tử.">
+    <meta name="keywords" content="văn phòng sài gòn, soạn thảo văn bản, chuyển audio thành text, ghi chú cuộc họp, chỉnh sửa ảnh, chữ ký điện tử">
+    <meta name="author" content="Văn phòng Sài Gòn">
+    <!-- Google Fonts - Inter & Outfit (using Tahoma as primary font but keeping modern fallbacks) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for additional icons if needed -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar bên trái -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Văn phòng Sài Gòn</h1>
+                        <span class="logo-subtitle">Trợ lý Số Hành chính</span>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <ul>
+                    <li class="menu-item active" data-target="doc-editor">
+                        <i class="fa-regular fa-file-word"></i>
+                        <span>Soạn Thảo Văn Bản</span>
+                    </li>
+                    <li class="menu-item" data-target="audio-to-text">
+                        <i class="fa-solid fa-microphone-lines"></i>
+                        <span>Chuyển Audio Thành Text</span>
+                    </li>
+                    <li class="menu-item" data-target="meeting-minutes">
+                        <i class="fa-regular fa-comments"></i>
+                        <span>Ghi Chú Cuộc Họp</span>
+                    </li>
+                    <li class="menu-item" data-target="image-editor">
+                        <i class="fa-regular fa-image"></i>
+                        <span>Chỉnh Sửa Ảnh</span>
+                    </li>
+                    <li class="menu-item" data-target="task-manager">
+                        <i class="fa-solid fa-list-check"></i>
+                        <span>Quản Lý Công Việc</span>
+                    </li>
+                    <li class="menu-item" data-target="e-signature">
+                        <i class="fa-solid fa-signature"></i>
+                        <span>Chữ Ký Điện Tử</span>
+                    </li>
+                    <li class="menu-item" data-target="about-app">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Giới Thiệu & Hướng Dẫn</span>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="settings-panel">
+                    <div class="setting-item">
+                        <span>Font Size:</span>
+                        <div class="font-controls">
+                            <button id="btn-dec-font" title="Giảm cỡ chữ"><i class="fa-solid fa-minus"></i></button>
+                            <span id="font-size-display">10px</span>
+                            <button id="btn-inc-font" title="Tăng cỡ chữ"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="supabase-sync-status offline" id="supabase-sync-status" style="margin-bottom: 8px;">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Supabase: Chưa kết nối</span>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2026 Văn phòng Sài Gòn</p>
+                    <p>Phiên bản chuyên nghiệp 1.0</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Nút toggle sidebar cho màn hình nhỏ -->
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle Sidebar">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Khu vực hiển thị chính bên phải -->
+        <main class="main-content" id="main-content">
+            
+            <!-- SECTION 1: SOẠN THẢO VĂN BẢN -->
+            <section id="doc-editor" class="content-section active">
+                <div class="section-header">
+                    <h2><i class="fa-regular fa-file-word text-blue"></i> Trình Soạn Thảo Văn Bản Hành Chính</h2>
+                    <p class="section-desc">Soạn thảo nhanh các loại văn bản, biểu mẫu thông dụng trong văn phòng với các mẫu có sẵn.</p>
+                </div>
+                
+                <div class="card editor-card">
+                    <div class="editor-toolbar">
+                        <!-- Templates Selector -->
+                        <div class="toolbar-group">
+                            <label for="doc-template-select"><i class="fa-solid fa-paste"></i> Mẫu văn bản:</label>
+                            <select id="doc-template-select" class="form-select select-sm">
+                                <option value="empty">-- Văn bản trống --</option>
+                                <option value="don-xin-nghi-phep">Đơn xin nghỉ phép</option>
+                                <option value="hop-dong-lao-dong">Hợp đồng lao động</option>
+                                <option value="giay-uy-quyen">Giấy ủy quyền</option>
+                                <option value="bien-ban-ban-giao">Biên bản bàn giao công việc</option>
+                                <option value="cong-van-hanh-chinh">Công văn hành chính</option>
+                                <option value="giay-moi-hop">Giấy mời họp</option>
+                                <option value="anh-tai-cau-long">anh Tài - cầu lông</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Excel Import Button -->
+                        <div class="toolbar-group">
+                            <button id="btn-excel-import" class="btn btn-secondary btn-sm" title="Nhập danh sách từ Excel"><i class="fa-solid fa-file-excel text-success"></i> Nhập Excel</button>
+                            <input type="file" id="excel-upload-input" accept=".xlsx, .xls, .csv" style="display: none;">
+                            <button id="btn-excel-template" class="btn btn-secondary btn-sm" title="Tải mẫu Excel mẫu"><i class="fa-solid fa-download text-success"></i> Mẫu Excel</button>
+                            <button id="btn-show-data" class="btn btn-secondary btn-sm" title="Xem bảng dữ liệu chi tiết"><i class="fa-solid fa-table"></i> Dữ liệu</button>
+                            <button id="btn-show-report" class="btn btn-secondary btn-sm" title="Xem báo cáo tổng hợp"><i class="fa-solid fa-chart-pie text-blue"></i> Báo cáo</button>
+                        </div>
+
+                        <div class="toolbar-divider"></div>
+
+                        <!-- Formatting Controls -->
+                        <div class="toolbar-group">
+                            <button class="btn-tool" data-command="bold" title="In đậm (Ctrl+B)"><i class="fa-solid fa-bold"></i></button>
+                            <button class="btn-tool" data-command="italic" title="In nghiêng (Ctrl+I)"><i class="fa-solid fa-italic"></i></button>
+                            <button class="btn-tool" data-command="underline" title="Gạch chân (Ctrl+U)"><i class="fa-solid fa-underline"></i></button>
+                            <button class="btn-tool" data-command="strikeThrough" title="Gạch ngang"><i class="fa-solid fa-strikethrough"></i></button>
+                        </div>
+
+                        <div class="toolbar-divider"></div>
+
+                        <div class="toolbar-group">
+                            <button class="btn-tool" data-command="justifyLeft" title="Canh trái"><i class="fa-solid fa-align-left"></i></button>
+                            <button class="btn-tool" data-command="justifyCenter" title="Canh giữa"><i class="fa-solid fa-align-center"></i></button>
+                            <button class="btn-tool" data-command="justifyRight" title="Canh phải"><i class="fa-solid fa-align-right"></i></button>
+                            <button class="btn-tool" data-command="justifyFull" title="Canh đều"><i class="fa-solid fa-align-justify"></i></button>
+                        </div>
+
+                        <div class="toolbar-divider"></div>
+
+                        <div class="toolbar-group">
+                            <button class="btn-tool" data-command="insertUnorderedList" title="Danh sách không thứ tự"><i class="fa-solid fa-list-ul"></i></button>
+                            <button class="btn-tool" data-command="insertOrderedList" title="Danh sách có thứ tự"><i class="fa-solid fa-list-ol"></i></button>
+                        </div>
+
+                        <div class="toolbar-divider"></div>
+
+                        <!-- Colors, Fonts and Sizes -->
+                        <div class="toolbar-group">
+                            <div class="color-picker-wrapper">
+                                <label for="text-color" title="Màu chữ"><i class="fa-solid fa-font text-blue"></i></label>
+                                <input type="color" id="text-color" value="#333333">
+                            </div>
+                            <div class="color-picker-wrapper">
+                                <label for="bg-color" title="Màu nền chữ"><i class="fa-solid fa-paint-roller text-blue"></i></label>
+                                <input type="color" id="bg-color" value="#ffffff">
+                            </div>
+                            <select id="font-family-select" class="form-select select-sm select-auto" title="Font chữ">
+                                <option value="'Tahoma', 'Segoe UI', sans-serif" selected>Tahoma</option>
+                                <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                                <option value="'Arial', sans-serif">Arial</option>
+                                <option value="'Verdana', sans-serif">Verdana</option>
+                                <option value="'Courier New', Courier, monospace">Courier New</option>
+                                <option value="'Georgia', serif">Georgia</option>
+                            </select>
+                            <select id="font-size-select" class="form-select select-sm select-narrow" title="Kích cỡ chữ">
+                                <option value="1">Cỡ nhỏ</option>
+                                <option value="3" selected>Cỡ vừa</option>
+                                <option value="5">Cỡ lớn</option>
+                                <option value="7">Cỡ rất lớn</option>
+                            </select>
+                        </div>
+
+                        <div class="toolbar-divider"></div>
+
+                        <!-- Actions -->
+                        <div class="toolbar-group align-right">
+                            <button id="btn-editor-clear" class="btn btn-danger btn-sm" title="Xóa toàn bộ"><i class="fa-solid fa-trash-can"></i> Xóa</button>
+                            <button id="btn-editor-copy" class="btn btn-secondary btn-sm" title="Sao chép văn bản"><i class="fa-regular fa-copy"></i> Copy</button>
+                            <button id="btn-editor-print" class="btn btn-secondary btn-sm" title="In hoặc xuất PDF"><i class="fa-solid fa-print"></i> In/PDF</button>
+                            <button id="btn-editor-download" class="btn btn-primary btn-sm" title="Tải xuống tệp .doc"><i class="fa-solid fa-download"></i> Tải .doc</button>
+                        </div>
+                    </div>
+
+                    <!-- Editor Workspace -->
+                    <div class="editor-workspace">
+                        <div id="rich-editor" contenteditable="true" spellcheck="false" class="rich-editor">
+                            <p>Bắt đầu viết văn bản của bạn ở đây hoặc chọn một <strong>mẫu văn bản hành chính</strong> ở thanh công cụ phía trên...</p>
+                        </div>
+                    </div>
+
+                    <!-- Editor Info Bar -->
+                    <div class="editor-infobar">
+                        <div class="infobar-item">
+                            <span>Ký tự: <strong id="char-count">0</strong></span>
+                        </div>
+                        <div class="infobar-item">
+                            <span>Từ: <strong id="word-count">0</strong></span>
+                        </div>
+                        <div class="infobar-item">
+                            <span>Tình trạng: <span id="save-status" class="status-indicator">Đã lưu tự động</span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: CHUYỂN AUDIO THÀNH TEXT -->
+            <section id="audio-to-text" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-microphone-lines text-blue"></i> Chuyển Audio Thành Văn Bản</h2>
+                    <p class="section-desc">Ghi âm trực tiếp hoặc tải tệp âm thanh lên để chuyển đổi thành văn bản tiếng Việt chính xác.</p>
+                </div>
+
+                <div class="grid grid-2">
+                    <!-- Khung ghi âm trực tiếp -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-microphone text-blue"></i> Ghi âm trực tiếp (Live Voice)</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="audio-control-panel">
+                                <div class="language-selector-group">
+                                    <label for="voice-lang">Ngôn ngữ nhận dạng:</label>
+                                    <select id="voice-lang" class="form-select">
+                                        <option value="vi-VN" selected>Tiếng Việt (vi-VN)</option>
+                                        <option value="en-US">Tiếng Anh (en-US)</option>
+                                    </select>
+                                </div>
+
+                                <div class="audio-buttons">
+                                    <button id="btn-record-start" class="btn btn-primary btn-lg btn-pulse-wrapper">
+                                        <span class="pulse-ring"></span>
+                                        <i class="fa-solid fa-circle"></i> Bắt đầu ghi
+                                    </button>
+                                    <button id="btn-record-stop" class="btn btn-danger btn-lg" disabled>
+                                        <i class="fa-solid fa-square"></i> Dừng lại
+                                    </button>
+                                </div>
+
+                                <div class="recording-status" id="recording-status">
+                                    <div class="status-dot"></div>
+                                    <span id="recording-status-text">Sẵn sàng ghi âm...</span>
+                                </div>
+
+                                <!-- Biểu đồ âm thanh giả lập/visualizer -->
+                                <div class="sound-wave" id="sound-wave">
+                                    <span></span><span></span><span></span><span></span><span></span>
+                                    <span></span><span></span><span></span><span></span><span></span>
+                                    <span></span><span></span><span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Khung tải file âm thanh -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-file-audio text-blue"></i> Chuyển từ tệp âm thanh (Audio File)</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="audio-upload-panel">
+                                <div class="file-dropzone" id="audio-dropzone">
+                                    <i class="fa-solid fa-cloud-arrow-up text-blue font-30"></i>
+                                    <p class="dropzone-text">Kéo thả tệp âm thanh vào đây hoặc <strong>chọn tệp</strong></p>
+                                    <span class="file-types">Hỗ trợ: .mp3, .wav, .m4a, .ogg</span>
+                                    <input type="file" id="audio-file-input" accept="audio/*" class="file-input-hidden">
+                                </div>
+
+                                <div class="uploaded-file-info" id="audio-file-info" style="display: none;">
+                                    <div class="file-detail">
+                                        <i class="fa-solid fa-file-audio text-blue"></i>
+                                        <div class="file-meta">
+                                            <span id="audio-filename" class="filename">audio_sample.mp3</span>
+                                            <span id="audio-filesize" class="filesize">2.4 MB</span>
+                                        </div>
+                                    </div>
+                                    <button id="btn-audio-transcribe" class="btn btn-secondary btn-sm">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i> Tiến hành nhận dạng
+                                    </button>
+                                </div>
+
+                                <div class="transcribe-progress" id="transcribe-progress" style="display: none;">
+                                    <div class="progress-info">
+                                        <span id="progress-status-text">Đang nhận dạng âm thanh...</span>
+                                        <span id="progress-percent">0%</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kết quả nhận diện văn bản -->
+                <div class="card mt-20">
+                    <div class="card-header flex-between">
+                        <h3><i class="fa-solid fa-file-text text-blue"></i> Văn bản nhận dạng được</h3>
+                        <div class="card-actions">
+                            <button id="btn-speech-copy" class="btn btn-secondary btn-sm"><i class="fa-regular fa-copy"></i> Copy</button>
+                            <button id="btn-speech-send-editor" class="btn btn-primary btn-sm"><i class="fa-solid fa-paper-plane"></i> Chuyển vào Soạn thảo</button>
+                            <button id="btn-speech-clear" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can"></i> Xóa</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <textarea id="speech-result-text" class="form-textarea speech-result-area" placeholder="Văn bản nhận dạng sẽ xuất hiện ở đây khi bạn nói hoặc tải tệp lên..." readonly></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: GHI CHÚ CUỘC HỌP -->
+            <section id="meeting-minutes" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fa-regular fa-comments text-blue"></i> Quản Lý & Ghi Chú Biên Bản Cuộc Họp</h2>
+                    <p class="section-desc">Ghi chép chuyên nghiệp nội dung cuộc họp, lập danh sách người tham gia, phân công công việc và hạn chót.</p>
+                </div>
+
+                <div class="grid grid-3-1">
+                    <!-- Biểu mẫu tạo biên bản -->
+                    <div class="card">
+                        <div class="card-header flex-between">
+                            <h3><i class="fa-regular fa-keyboard text-blue"></i> Nội dung biên bản cuộc họp</h3>
+                            <select id="meeting-template-select" class="form-select select-sm select-auto">
+                                <option value="hop-giao-ban">Mẫu: Họp giao ban tuần</option>
+                                <option value="hop-khoi-dong">Mẫu: Khởi động dự án (Kick-off)</option>
+                                <option value="hop-danh-gia">Mẫu: Đánh giá & Rà soát định kỳ</option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <form id="meeting-form" class="form-grid">
+                                <div class="form-group col-12">
+                                    <label for="meet-title">Tiêu đề cuộc họp:</label>
+                                    <input type="text" id="meet-title" class="form-input" placeholder="Ví dụ: Họp Giao Ban Tuần 26 - Ban Giám Đốc" required>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="meet-date">Thời gian:</label>
+                                    <input type="datetime-local" id="meet-date" class="form-input" required>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="meet-location">Địa điểm / Nền tảng:</label>
+                                    <input type="text" id="meet-location" class="form-input" placeholder="Ví dụ: Phòng họp 1 / Google Meet" required>
+                                </div>
+                                <div class="form-group col-12">
+                                    <label for="meet-attendees">Người tham gia:</label>
+                                    <input type="text" id="meet-attendees" class="form-input" placeholder="Ví dụ: Nguyễn Văn A (Chủ trì), Trần Thị B (Thư ký), Lê Văn C">
+                                </div>
+                                <div class="form-group col-12">
+                                    <label for="meet-agenda">Mục tiêu & Chương trình họp:</label>
+                                    <textarea id="meet-agenda" class="form-textarea" rows="3" placeholder="1. Báo cáo tình hình kinh doanh tuần qua&#10;2. Thảo luận kế hoạch ra mắt sản phẩm mới&#10;3. Phân công công việc mới"></textarea>
+                                </div>
+                                <div class="form-group col-12">
+                                    <label for="meet-notes">Nội dung cuộc họp (Chi tiết thảo luận):</label>
+                                    <textarea id="meet-notes" class="form-textarea" rows="8" placeholder="- Ý kiến 1: Bộ phận Kinh doanh đạt 120% KPI...&#10;- Ý kiến 2: Bộ phận Marketing cần triển khai thêm kênh quảng cáo số...&#10;- Ý kiến 3: Thống nhất ngân sách chiến dịch mới là 50 triệu đồng..."></textarea>
+                                </div>
+
+                                <!-- Action Items Table -->
+                                <div class="form-group col-12 mt-10">
+                                    <div class="flex-between mb-5">
+                                        <label class="label-bold"><i class="fa-solid fa-tasks text-blue"></i> Phân công công việc & Hành động tiếp theo:</label>
+                                        <button type="button" id="btn-add-action-item" class="btn btn-secondary btn-xs"><i class="fa-solid fa-plus"></i> Thêm việc</button>
+                                    </div>
+                                    <div class="table-container">
+                                        <table class="action-items-table" id="action-items-table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 45%;">Nội dung công việc</th>
+                                                    <th style="width: 25%;">Người phụ trách</th>
+                                                    <th style="width: 20%;">Hạn chót</th>
+                                                    <th style="width: 10%; text-align: center;">Xóa</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="action-items-tbody">
+                                                <!-- Dynamic Rows -->
+                                                <tr>
+                                                    <td><input type="text" class="table-input act-desc" placeholder="Tên công việc..."></td>
+                                                    <td><input type="text" class="table-input act-owner" placeholder="Tên người..."></td>
+                                                    <td><input type="date" class="table-input act-deadline"></td>
+                                                    <td style="text-align: center;"><button type="button" class="btn-delete-row"><i class="fa-regular fa-trash-can"></i></button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions col-12 mt-20">
+                                    <button type="button" id="btn-meeting-clear" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Xóa biên bản</button>
+                                    <button type="button" id="btn-meeting-save" class="btn btn-secondary"><i class="fa-regular fa-floppy-disk"></i> Lưu trữ nháp</button>
+                                    <button type="button" id="btn-meeting-export-doc" class="btn btn-primary"><i class="fa-solid fa-file-export"></i> Xuất Biên Bản (.doc)</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Danh sách biên bản đã lưu -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-folder-open text-blue"></i> Biên bản đã lưu</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="saved-minutes-list" id="saved-minutes-list">
+                                <li class="empty-list-msg">Chưa có biên bản nào được lưu trữ.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: CHỈNH SỬA ẢNH -->
+            <section id="image-editor" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fa-regular fa-image text-blue"></i> Trình Chỉnh Sửa Ảnh Văn Phòng</h2>
+                    <p class="section-desc">Chỉnh sửa nhanh ảnh thẻ, cắt ảnh, xoay ảnh, thêm chữ ký, đóng dấu watermark, hoặc chèn chữ vào ảnh công việc.</p>
+                </div>
+
+                <div class="grid grid-1-3">
+                    <!-- Sidebar công cụ chỉnh ảnh -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-sliders text-blue"></i> Công cụ điều chỉnh</h3>
+                        </div>
+                        <div class="card-body p-10">
+                            <div class="image-controls-group">
+                                <h4 class="control-group-title">Bộ lọc hình ảnh</h4>
+                                <div class="range-control">
+                                    <div class="flex-between">
+                                        <label for="slider-brightness">Độ sáng:</label>
+                                        <span id="val-brightness">100%</span>
+                                    </div>
+                                    <input type="range" id="slider-brightness" min="0" max="200" value="100">
+                                </div>
+                                <div class="range-control">
+                                    <div class="flex-between">
+                                        <label for="slider-contrast">Độ tương phản:</label>
+                                        <span id="val-contrast">100%</span>
+                                    </div>
+                                    <input type="range" id="slider-contrast" min="0" max="200" value="100">
+                                </div>
+                                <div class="range-control">
+                                    <div class="flex-between">
+                                        <label for="slider-grayscale">Ảnh trắng đen:</label>
+                                        <span id="val-grayscale">0%</span>
+                                    </div>
+                                    <input type="range" id="slider-grayscale" min="0" max="100" value="0">
+                                </div>
+                                <div class="range-control">
+                                    <div class="flex-between">
+                                        <label for="slider-blur">Làm mờ:</label>
+                                        <span id="val-blur">0px</span>
+                                    </div>
+                                    <input type="range" id="slider-blur" min="0" max="20" value="0">
+                                </div>
+                            </div>
+
+                            <div class="image-controls-group mt-15">
+                                <h4 class="control-group-title">Xoay & Lật</h4>
+                                <div class="btn-grid-4">
+                                    <button id="btn-rotate-left" class="btn btn-outline btn-xs" title="Xoay trái 90°"><i class="fa-solid fa-rotate-left"></i> 90°</button>
+                                    <button id="btn-rotate-right" class="btn btn-outline btn-xs" title="Xoay phải 90°"><i class="fa-solid fa-rotate-right"></i> 90°</button>
+                                    <button id="btn-flip-h" class="btn btn-outline btn-xs" title="Lật ngang"><i class="fa-solid fa-arrows-left-right"></i> Lật H</button>
+                                    <button id="btn-flip-v" class="btn btn-outline btn-xs" title="Lật dọc"><i class="fa-solid fa-arrows-up-down"></i> Lật V</button>
+                                </div>
+                            </div>
+
+                            <div class="image-controls-group mt-15">
+                                <h4 class="control-group-title">Vẽ & Viết Chữ</h4>
+                                <div class="form-group mb-5">
+                                    <label for="draw-tool-select">Chọn công cụ:</label>
+                                    <select id="draw-tool-select" class="form-select select-sm">
+                                        <option value="none" selected>Không vẽ (Di chuyển/Xem)</option>
+                                        <option value="pen">Bút vẽ tự do</option>
+                                        <option value="text">Chèn văn bản</option>
+                                        <option value="rect">Vẽ khung chữ nhật</option>
+                                    </select>
+                                </div>
+                                <div class="flex-between mb-5">
+                                    <div class="color-picker-wrapper">
+                                        <label for="draw-color">Màu vẽ/chữ:</label>
+                                        <input type="color" id="draw-color" value="#0d6efd">
+                                    </div>
+                                    <div class="form-group select-narrow">
+                                        <label for="draw-size">Cỡ cọ:</label>
+                                        <input type="number" id="draw-size" class="form-input text-center p-3 font-10" value="5" min="1" max="50">
+                                    </div>
+                                </div>
+                                <div class="form-group" id="text-insert-input-group" style="display: none;">
+                                    <label for="image-text-content">Nội dung chữ chèn:</label>
+                                    <input type="text" id="image-text-content" class="form-input" placeholder="Nhập chữ cần chèn...">
+                                </div>
+                            </div>
+
+                            <div class="image-controls-group mt-15">
+                                <h4 class="control-group-title">Thao tác ảnh</h4>
+                                <button id="btn-image-reset" class="btn btn-danger btn-block btn-xs mb-5"><i class="fa-solid fa-undo"></i> Reset hình ảnh</button>
+                                <button id="btn-image-download" class="btn btn-primary btn-block btn-sm"><i class="fa-solid fa-download"></i> Tải ảnh xuống</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Khung vẽ Canvas / Upload ảnh -->
+                    <div class="card">
+                        <div class="card-header flex-between">
+                            <h3><i class="fa-regular fa-images text-blue"></i> Không gian làm việc</h3>
+                            <div class="canvas-zoom-controls">
+                                <button id="btn-image-upload-trigger" class="btn btn-secondary btn-xs"><i class="fa-solid fa-upload"></i> Chọn ảnh khác</button>
+                            </div>
+                        </div>
+                        <div class="card-body canvas-body">
+                            <!-- Dropzone khi chưa có ảnh -->
+                            <div class="image-dropzone" id="image-dropzone">
+                                <i class="fa-regular fa-image text-blue font-40"></i>
+                                <p class="dropzone-text">Kéo thả hình ảnh vào đây hoặc <strong>chọn tệp ảnh từ máy tính</strong></p>
+                                <span class="file-types">Hỗ trợ: .png, .jpg, .jpeg, .webp, .gif</span>
+                                <input type="file" id="image-file-input" accept="image/*" class="file-input-hidden">
+                            </div>
+
+                            <!-- Khung chứa canvas khi đã upload ảnh -->
+                            <div class="canvas-container" id="canvas-container" style="display: none;">
+                                <canvas id="editor-canvas"></canvas>
+                                <div class="canvas-help-tip">Mẹo: Click chuột lên ảnh để vẽ hoặc chèn văn bản tùy theo công cụ đã chọn.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: QUẢN LÝ CÔNG VIỆC -->
+            <section id="task-manager" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-list-check text-blue"></i> Quản Lý Danh Sách Công Việc</h2>
+                    <p class="section-desc">Theo dõi tiến độ, đặt lịch hẹn và phân loại công việc văn phòng hằng ngày tránh bị sót việc.</p>
+                </div>
+
+                <div class="grid grid-1-3">
+                    <!-- Form thêm công việc mới -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-plus text-blue"></i> Thêm việc mới</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="task-form" class="form-grid">
+                                <div class="form-group col-12">
+                                    <label for="task-name">Tên công việc:</label>
+                                    <input type="text" id="task-name" class="form-input" placeholder="Ví dụ: Gửi hợp đồng cho bên A" required>
+                                </div>
+                                <div class="form-group col-12">
+                                    <label for="task-category">Phân loại:</label>
+                                    <select id="task-category" class="form-select">
+                                        <option value="Soạn thảo">Soạn thảo văn bản</option>
+                                        <option value="Họp hành">Họp hành & Biên bản</option>
+                                        <option value="Ký duyệt">Ký duyệt giấy tờ</option>
+                                        <option value="Hình ảnh">Hình ảnh & Media</option>
+                                        <option value="Khác" selected>Công việc khác</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="task-priority">Độ ưu tiên:</label>
+                                    <select id="task-priority" class="form-select">
+                                        <option value="Cao">Cao 🔥</option>
+                                        <option value="Trung bình" selected>Trung bình ⚡</option>
+                                        <option value="Thấp">Thấp 💤</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="task-deadline">Hạn chót:</label>
+                                    <input type="date" id="task-deadline" class="form-input" required>
+                                </div>
+                                <div class="form-actions col-12 mt-15">
+                                    <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-plus"></i> Thêm vào danh sách</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Bảng danh sách công việc -->
+                    <div class="card">
+                        <div class="card-header flex-between">
+                            <h3><i class="fa-solid fa-tasks text-blue"></i> Danh sách công việc hiện tại</h3>
+                            <!-- Lọc công việc -->
+                            <div class="task-filters">
+                                <button class="btn btn-outline btn-xs active-filter" data-filter="all">Tất cả</button>
+                                <button class="btn btn-outline btn-xs" data-filter="pending">Chưa xong</button>
+                                <button class="btn btn-outline btn-xs" data-filter="completed">Đã xong</button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-container">
+                                <table class="task-list-table" id="task-list-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 5%; text-align: center;">Xong</th>
+                                            <th style="width: 45%;">Tên công việc</th>
+                                            <th style="width: 15%;">Phân loại</th>
+                                            <th style="width: 15%; text-align: center;">Ưu tiên</th>
+                                            <th style="width: 15%;">Hạn chót</th>
+                                            <th style="width: 5%; text-align: center;">Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="task-list-tbody">
+                                        <!-- Danh sách công việc do JS render -->
+                                        <tr>
+                                            <td colspan="6" class="text-center py-20 text-gray">Đang tải danh sách công việc...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: CHỮ KÝ ĐIỆN TỬ -->
+            <section id="e-signature" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-signature text-blue"></i> Trình Tạo Chữ Ký Điện Tử</h2>
+                    <p class="section-desc">Ký trực tiếp bằng tay/chuột hoặc nhập tên để tạo ra tệp chữ ký PNG nền trong suốt sắc nét dùng để chèn vào văn bản Word/PDF.</p>
+                </div>
+
+                <div class="grid grid-2">
+                    <!-- Vẽ chữ ký trực tiếp -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-pen-nib text-blue"></i> Vẽ chữ ký trực tiếp (Draw Signature)</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="signature-canvas-wrapper">
+                                <canvas id="signature-pad"></canvas>
+                                <div class="canvas-placeholder-text" id="sig-pad-placeholder">Ký tên của bạn vào đây...</div>
+                            </div>
+                            <div class="flex-between mt-15">
+                                <div class="flex-gap-5">
+                                    <div class="color-picker-wrapper">
+                                        <label for="sig-color">Màu bút:</label>
+                                        <input type="color" id="sig-color" value="#0000ff">
+                                    </div>
+                                    <div class="form-group select-narrow">
+                                        <label for="sig-width">Độ dày nét:</label>
+                                        <select id="sig-width" class="form-select select-sm select-narrow">
+                                            <option value="2">Mảnh</option>
+                                            <option value="4" selected>Vừa</option>
+                                            <option value="6">Dày</option>
+                                            <option value="8">Rất dày</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="flex-gap-5">
+                                    <button id="btn-sig-clear" class="btn btn-danger btn-sm"><i class="fa-solid fa-eraser"></i> Xóa</button>
+                                    <button id="btn-sig-undo" class="btn btn-secondary btn-sm"><i class="fa-solid fa-undo"></i> Hoàn tác</button>
+                                    <button id="btn-sig-download" class="btn btn-primary btn-sm"><i class="fa-solid fa-download"></i> Tải PNG</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tạo chữ ký tự động theo tên -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-keyboard text-blue"></i> Tạo chữ ký theo tên (Text to Signature)</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="sig-text-input">Nhập tên của bạn (không dấu hoặc có dấu):</label>
+                                <input type="text" id="sig-text-input" class="form-input" placeholder="Ví dụ: Nguyễn Văn An" value="Nguyễn Văn An">
+                            </div>
+
+                            <div class="sig-preview-grid mt-15">
+                                <div class="sig-text-preview-card" data-font="sig-font-1">
+                                    <div class="sig-preview-text sig-font-1" id="sig-p1">Nguyễn Văn An</div>
+                                    <span class="sig-font-label">Mẫu cursive 1</span>
+                                    <button class="btn btn-primary btn-xs btn-download-text-sig" data-target="sig-p1"><i class="fa-solid fa-download"></i> Tải</button>
+                                </div>
+                                <div class="sig-text-preview-card" data-font="sig-font-2">
+                                    <div class="sig-preview-text sig-font-2" id="sig-p2">Nguyễn Văn An</div>
+                                    <span class="sig-font-label">Mẫu cursive 2</span>
+                                    <button class="btn btn-primary btn-xs btn-download-text-sig" data-target="sig-p2"><i class="fa-solid fa-download"></i> Tải</button>
+                                </div>
+                                <div class="sig-text-preview-card" data-font="sig-font-3">
+                                    <div class="sig-preview-text sig-font-3" id="sig-p3">Nguyễn Văn An</div>
+                                    <span class="sig-font-label">Mẫu cursive 3</span>
+                                    <button class="btn btn-primary btn-xs btn-download-text-sig" data-target="sig-p3"><i class="fa-solid fa-download"></i> Tải</button>
+                                </div>
+                                <div class="sig-text-preview-card" data-font="sig-font-4">
+                                    <div class="sig-preview-text sig-font-4" id="sig-p4">Nguyễn Văn An</div>
+                                    <span class="sig-font-label">Mẫu cursive 4</span>
+                                    <button class="btn btn-primary btn-xs btn-download-text-sig" data-target="sig-p4"><i class="fa-solid fa-download"></i> Tải</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 7: GIỚI THIỆU -->
+            <section id="about-app" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-circle-info text-blue"></i> Giới Thiệu & Hướng Dẫn Sử Dụng</h2>
+                    <p class="section-desc">Văn phòng Sài Gòn - Giải pháp tất cả trong một phục vụ công việc hành chính văn phòng hiệu quả.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-body about-content">
+                        <h3>Chào mừng đến với Văn phòng Sài Gòn!</h3>
+                        <p>Website này được thiết kế và phát triển đặc biệt để tối ưu hóa quy trình làm việc hằng ngày của giới văn phòng tại Việt Nam. Toàn bộ các công cụ hoạt động <strong>hoàn toàn trên trình duyệt của bạn (client-side)</strong>, đảm bảo bảo mật dữ liệu tuyệt đối (không có bất kỳ tập tin hay giọng nói nào của bạn được gửi lên máy chủ của chúng tôi).</p>
+                        
+                        <div class="divider"></div>
+                        
+                        <h4 class="mt-15 text-blue">Các tính năng chính:</h4>
+                        <ul class="about-features-list">
+                            <li>
+                                <strong>📝 Soạn thảo văn bản hành chính:</strong> Hỗ trợ các biểu mẫu quy chuẩn như Đơn nghỉ phép, Hợp đồng lao động, Giấy ủy quyền... Xuất trực tiếp sang định dạng Word (.doc) hoặc in ra tệp PDF.
+                            </li>
+                            <li>
+                                <strong>🎙️ Chuyển Audio thành văn bản:</strong> Sử dụng API nhận dạng giọng nói tích hợp sẵn trong trình duyệt (hỗ trợ tốt nhất trên Google Chrome) để dịch trực tiếp lời nói thành văn bản tiếng Việt với tốc độ cực nhanh. Hoặc mô phỏng tiến trình phân tích tệp ghi âm sẵn có.
+                            </li>
+                            <li>
+                                <strong>🤝 Ghi chép biên bản cuộc họp:</strong> Tạo nhanh biên bản cuộc họp, lưu trữ danh sách hành động/công việc cần làm kèm theo người phụ trách, thời hạn và xuất ra biên bản hoàn chỉnh.
+                            </li>
+                            <li>
+                                <strong>🖼️ Chỉnh sửa ảnh văn phòng:</strong> Chỉnh các thông số ảnh cơ bản (độ sáng, tương phản, mờ), xoay ảnh, lật ảnh, chèn chữ/vẽ đè lên tài liệu làm việc, xuất hình ảnh mới ngay lập tức.
+                            </li>
+                            <li>
+                                <strong>📋 Quản lý công việc:</strong> Sắp xếp công việc văn phòng hằng ngày theo thứ tự ưu tiên, phân loại công việc và hạn chót để không bỏ lỡ các đầu việc quan trọng.
+                            </li>
+                            <li>
+                                <strong>✍️ Tạo chữ ký điện tử:</strong> Vẽ chữ ký tay chuyên nghiệp hoặc gõ tên để tự động tạo mẫu chữ ký nghệ thuật. Xuất ảnh chữ ký dạng PNG trong suốt (transparent) để chèn nhanh vào các văn bản hành chính.
+                            </li>
+                        </ul>
+
+                        <div class="divider"></div>
+
+                        <h4 class="mt-15 text-blue">Lưu ý khi sử dụng:</h4>
+                        <p>1. <strong>Quyền riêng tư:</strong> Dữ liệu của bạn được lưu trữ cục bộ trên trình duyệt (sử dụng LocalStorage). Nếu bạn xóa dữ liệu duyệt web, dữ liệu nháp của các công cụ (như danh sách công việc, biên bản đã lưu) sẽ bị xóa.</p>
+                        <p>2. <strong>Nhận diện giọng nói:</strong> Tính năng "Ghi âm trực tiếp" yêu cầu bạn cấp quyền truy cập Micro cho website và hoạt động tối ưu nhất trên các trình duyệt sử dụng nhân Chromium như Google Chrome, Edge, Cốc Cốc.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Data Modal (Excel-like Grid) -->
+    <div id="data-modal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-table text-success"></i> Bảng Dữ liệu Chi tiết (Mô phỏng Excel)</h3>
+                <div style="display: flex; gap: 10px; align-items: center; margin-right: 15px; margin-left: auto;">
+                    <button id="btn-clear-all-data" class="btn btn-danger btn-sm" style="font-size: 1.1rem; padding: 5px 10px;"><i class="fa-solid fa-trash-can"></i> Xóa Hết Dữ Liệu</button>
+                </div>
+                <span class="modal-close" id="close-data-modal" style="margin-left: 10px;">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted" style="margin-bottom: 10px; font-size: 1.2rem;">Hiển thị danh sách các bản ghi hiện tại trong bảng biểu. Bạn có thể lọc hoặc cuộn để xem chi tiết.</p>
+                <div class="excel-grid-container">
+                    <table class="excel-grid-table" id="excel-grid-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%; vertical-align: top;">
+                                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                                        <span style="font-size: 1.1rem;">Nhóm (Ban ngành)</span>
+                                        <select id="filter-group" style="font-size: 1rem; padding: 2px; border-radius: 4px; border: 1px solid #cbd5e1; font-weight: normal; color: #475569; width: 100%;">
+                                            <option value="">Tất cả</option>
+                                        </select>
+                                    </div>
+                                </th>
+                                <th style="width: 5%; text-align: center; vertical-align: middle;">STT</th>
+                                <th style="width: 15%; vertical-align: middle;">Họ và tên/ Đơn vị</th>
+                                <th style="width: 15%; vertical-align: middle;">Chức vụ</th>
+                                <th style="width: 20%; vertical-align: middle;">Địa chỉ (nhà riêng/cơ quan)</th>
+                                <th style="width: 6%; text-align: center; vertical-align: middle;">Số lượng</th>
+                                <th style="width: 10%; vertical-align: top;">
+                                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                                        <span style="font-size: 1.1rem;">Đơn vị đề xuất</span>
+                                        <select id="filter-proposer" style="font-size: 1rem; padding: 2px; border-radius: 4px; border: 1px solid #cbd5e1; font-weight: normal; color: #475569; width: 100%;">
+                                            <option value="">Tất cả</option>
+                                        </select>
+                                    </div>
+                                </th>
+                                <th style="width: 10%; vertical-align: top;">
+                                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                                        <span style="font-size: 1.1rem;">Lãnh đạo duyệt</span>
+                                        <select id="filter-approver" style="font-size: 1rem; padding: 2px; border-radius: 4px; border: 1px solid #cbd5e1; font-weight: normal; color: #475569; width: 100%;">
+                                            <option value="">Tất cả</option>
+                                        </select>
+                                    </div>
+                                </th>
+                                <th style="width: 10%; vertical-align: middle;">Ghi chú</th>
+                                <th style="width: 5%; text-align: center; vertical-align: middle;">Xóa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-close-data-modal-footer">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div id="report-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-chart-pie text-blue"></i> Báo cáo Tổng hợp Quà tặng</h3>
+                <span class="modal-close" id="close-report-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="report-summary-cards" style="display: flex; gap: 15px; margin-bottom: 20px;">
+                    <div class="summary-card" style="flex: 1; padding: 15px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 11px; color: #166534; font-weight: bold;">TỔNG SỐ ĐƠN VỊ</div>
+                        <div id="report-total-depts" style="font-size: 24px; font-weight: bold; color: #15803d; margin-top: 5px;">0</div>
+                    </div>
+                    <div class="summary-card" style="flex: 1; padding: 15px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 11px; color: #1e40af; font-weight: bold;">TỔNG SỐ NGƯỜI NHẬN</div>
+                        <div id="report-total-people" style="font-size: 24px; font-weight: bold; color: #1d4ed8; margin-top: 5px;">0</div>
+                    </div>
+                    <div class="summary-card" style="flex: 1; padding: 15px; background: #fff7ed; border: 1px solid #ffedd5; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 11px; color: #9a3412; font-weight: bold;">TỔNG HỘP QUÀ</div>
+                        <div id="report-total-boxes" style="font-size: 24px; font-weight: bold; color: #c2410c; margin-top: 5px;">0</div>
+                    </div>
+                </div>
+                
+                <div class="report-table-container">
+                    <table class="report-table" style="width: 100%; border-collapse: collapse; font-size: 1.2rem;">
+                        <thead>
+                            <tr style="background: #f3f4f6; border-bottom: 2px solid #e5e7eb; font-weight: bold; text-align: left;">
+                                <th style="padding: 10px; border: 1px solid #e5e7eb;">STT</th>
+                                <th style="padding: 10px; border: 1px solid #e5e7eb;">Đơn vị / Phòng ban đề xuất</th>
+                                <th style="padding: 10px; border: 1px solid #e5e7eb; text-align: center;">Số lượng người</th>
+                                <th style="padding: 10px; border: 1px solid #e5e7eb; text-align: center;">Số lượng hộp quà</th>
+                            </tr>
+                        </thead>
+                        <tbody id="report-table-body">
+                            <!-- Will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-close-report-modal-footer">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast">
+        <span id="toast-message">Đã lưu thành công!</span>
+    </div>
+
+    <!-- SheetJS Excel Library -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="supabase.js"></script>
+    <!-- Font load fallback & main JS files -->
+    <script src="app.js"></script>
+    <script src="editor.js"></script>
+    <script src="speech.js"></script>
+    <script src="meeting.js"></script>
+    <script src="image.js"></script>
+    <script src="tasks.js"></script>
+    <script src="signature.js"></script>
+</body>
+</html>

@@ -266,19 +266,29 @@ window.syncDeleteTask = syncDeleteTask;
 window.syncLoadTasks = syncLoadTasks;
 
 // Initial Sync check
-document.addEventListener('DOMContentLoaded', async () => {
+async function checkInitialSync() {
     initSupabaseClient();
     if (supabase) {
-        updateSyncStatus('online', 'Đang kết nối...');
+        updateSyncStatus('syncing', 'Đang kết nối...');
         try {
             const { error } = await supabase.from('taicaulong_documents').select('id').limit(1);
             if (error) throw error;
             updateSyncStatus('online', 'Đã kết nối');
         } catch (err) {
             console.warn('Supabase table check failed (tables may not exist yet):', err.message);
-            updateSyncStatus('offline', 'Cần tạo bảng');
+            updateSyncStatus('offline', 'Cần tạo bảng / Lỗi bảng');
         }
     } else {
-        updateSyncStatus('offline', 'Chưa kết nối');
+        if (!window.supabase) {
+            updateSyncStatus('offline', 'Lỗi tải CDN (Bị chặn?)');
+        } else {
+            updateSyncStatus('offline', 'Lỗi cấu hình');
+        }
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', checkInitialSync);
+} else {
+    checkInitialSync();
+}

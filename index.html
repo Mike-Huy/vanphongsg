@@ -862,8 +862,20 @@
 
     <!-- SheetJS Excel Library -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script>
+        if (!window.XLSX) {
+            console.warn("jsDelivr blocked/failed. Loading SheetJS from unpkg...");
+            document.write('<script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"><\/script>');
+        }
+    </script>
     <!-- Supabase JS Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script>
+        if (!window.supabase) {
+            console.warn("jsDelivr blocked/failed. Loading Supabase from unpkg...");
+            document.write('<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"><\/script>');
+        }
+    </script>
     <script src="supabase.js"></script>
     <!-- Font load fallback & main JS files -->
     <script src="app.js"></script>

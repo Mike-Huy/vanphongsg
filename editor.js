@@ -400,83 +400,11 @@ const EDITOR_TEMPLATES = {
                     </tr>
                 </thead>
                 <tbody>
-
-                    <!-- Section Row -->
-                    <tr style="font-weight: bold; font-size: 11px;">
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center;">I.</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left;">Thường trực Thành ủy</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px;"></td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px;"></td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px;"></td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px;"></td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px;"></td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center;">27</td>
-                    </tr>
-
-                    <!-- Detail Rows with Spanning Address -->
-                    <tr style="font-size: 11px;">
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">1</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle; font-size: 13px;">Ông Trần Lưu Quang</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left; vertical-align: middle; line-height: 1.3;">
-                            Ủy viên Bộ Chính trị, Bi<br>thư Thành ủy Thành phố<br>Hồ Chí Minh
-                        </td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle; line-height: 1.3;" rowspan="5">
-                            58 Trương Định,<br>Phường Xuân Hòa, TP<br>Hồ Chí Minh
-                        </td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">1</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">Văn phòng HĐTV</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">Nguyễn Phương Nam</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle;"></td>
-                    </tr>
-                    <tr style="font-size: 11px;">
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">2</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle; font-size: 13px;">Ông Lê Quốc Phong</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left; vertical-align: middle; line-height: 1.3;">
-                            Ủy viên BCH TW Đảng,<br>Phó Bí thư Thường trực<br>Thành ủy
-                        </td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">1</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">Văn phòng HĐTV</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">Nguyễn Phương Nam</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle;"></td>
-                    </tr>
-                    <tr style="font-size: 11px;">
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">3</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle; font-size: 13px;">Ông Nguyễn Văn Được</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left; vertical-align: middle; line-height: 1.3;">
-                            Ủy viên BCH TW Đảng,<br>Phó Bí thư Thành ủy, Chủ<br>tịch UBND Thành phố
-                        </td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">1</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">Văn phòng HĐTV</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">Nguyễn Phương Nam</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle;"></td>
-                    </tr>
-                    <tr style="font-size: 11px;">
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">4</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle; font-size: 13px;">Ông Võ Văn Minh</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left; vertical-align: middle; line-height: 1.3;">
-                            Ủy viên BCH TW Đảng,<br>Phó Bí thư Thành ủy, Chủ<br>tịch HĐND Thành phố
-                        </td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">1</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">Văn phòng HĐTV</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">Nguyễn Phương Nam</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle;"></td>
-                    </tr>
-                    <tr style="font-size: 11px;">
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">5</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle; font-size: 13px;">Ông Nguyễn Phước Lộc</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left; vertical-align: middle; line-height: 1.3;">
-                            Ủy viên BCH TW Đảng,<br>Phó Bí thư Thành ủy, Chủ<br>tịch Ủy ban MTTQ Thành<br>phố
-                        </td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">1</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">Văn phòng HĐTV</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">Nguyễn Phương Nam</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle;"></td>
-                    </tr>
                 </tbody>
             </table>
 
             <!-- Signature Section -->
-            <table class="doc-signature-table" style="width: 100%; border-collapse: collapse; border: none; font-size: 12px; margin-top: 30px; font-family: Tahoma, 'Segoe UI', sans-serif; page-break-inside: avoid;">
+            <table class="doc-signature-table" style="width: 100%; border-collapse: collapse; border: none; font-size: 12px; margin-top: 30px; font-family: Tahoma, 'Segoe UI', sans-serif; page-break-inside: avoid; display: none;">
                 <tr>
                     <td style="width: 35%; text-align: center; vertical-align: top; padding: 0; line-height: 1.5;">
                         <div class="sig-title-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
@@ -548,6 +476,135 @@ function initEditor() {
     const saveStatus = document.getElementById('save-status');
 
     if (!editor) return;
+
+    // --- EXCEL FILE HISTORY SYSTEM ---
+    let excelHistory = [];
+
+    async function loadExcelHistory() {
+        let historyStr = null;
+        initSupabaseClient();
+        if (supabaseClient) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('taicaulong_documents')
+                    .select('content')
+                    .eq('id', 'excel_history')
+                    .single();
+                if (!error && data) {
+                    historyStr = data.content;
+                }
+            } catch (e) {
+                console.warn('Failed to load history from Supabase:', e);
+            }
+        }
+        if (!historyStr) {
+            historyStr = localStorage.getItem('vpsg-excel-history');
+        }
+        
+        if (historyStr) {
+            try {
+                excelHistory = JSON.parse(historyStr);
+            } catch (e) {
+                excelHistory = [];
+            }
+        } else {
+            excelHistory = [];
+        }
+        
+        updateHistoryDropdown();
+    }
+
+    async function saveExcelHistory() {
+        localStorage.setItem('vpsg-excel-history', JSON.stringify(excelHistory));
+        initSupabaseClient();
+        if (supabaseClient) {
+            try {
+                await supabaseClient
+                    .from('taicaulong_documents')
+                    .upsert({
+                        id: 'excel_history',
+                        content: JSON.stringify(excelHistory),
+                        updated_at: new Date()
+                    });
+            } catch (e) {
+                console.warn('Failed to save history to Supabase:', e);
+            }
+        }
+    }
+
+    function updateHistoryDropdown() {
+        const historySelect = document.getElementById('file-history-select');
+        if (!historySelect) return;
+        
+        historySelect.innerHTML = '<option value="">-- Chọn lịch sử file --</option>';
+        
+        const hasSavedDraft = localStorage.getItem('vpsg-editor-content') || localStorage.getItem('vpsg-latest-doc-html');
+        if (hasSavedDraft) {
+            const opt = document.createElement('option');
+            opt.value = 'latest_draft';
+            opt.textContent = 'Bản thảo nháp gần nhất (Auto-save)';
+            historySelect.appendChild(opt);
+        }
+        
+        excelHistory.forEach((item, index) => {
+            const opt = document.createElement('option');
+            opt.value = `history_${index}`;
+            opt.textContent = `File import: ${item.timestamp}`;
+            historySelect.appendChild(opt);
+        });
+    }
+
+    const historySelect = document.getElementById('file-history-select');
+    if (historySelect) {
+        historySelect.addEventListener('change', async (e) => {
+            const val = e.target.value;
+            if (!val) return;
+            
+            if (val === 'latest_draft') {
+                const savedContent = window.syncLoadDocument ? await window.syncLoadDocument() : localStorage.getItem('vpsg-editor-content');
+                if (savedContent) {
+                    editor.innerHTML = savedContent;
+                    ensureTitleEditButtons();
+                    ensureSignatureBlock();
+                    
+                    const parsedData = extractDataFromEditorTable();
+                    currentModalData = parsedData;
+                    populateFilterOptions(parsedData);
+                    renderModalGridFiltered();
+                    updateCounts();
+                    window.showToast('Đã tải bản thảo nháp gần nhất!');
+                }
+            } else if (val.startsWith('history_')) {
+                const index = parseInt(val.replace('history_', ''));
+                const historyItem = excelHistory[index];
+                if (historyItem) {
+                    if (historyItem.editorHtml) {
+                        editor.innerHTML = historyItem.editorHtml;
+                    } else if (historyItem.html) {
+                        const tbody = editor.querySelector('table.doc-data-table tbody') || editor.querySelector('table:has(thead) tbody');
+                        if (tbody) {
+                            tbody.innerHTML = historyItem.html;
+                        }
+                    }
+                    
+                    ensureTitleEditButtons();
+                    ensureSignatureBlock();
+                    
+                    if (historyItem.gifts) {
+                        currentModalData = historyItem.gifts;
+                        populateFilterOptions(historyItem.gifts);
+                        renderModalGridFiltered();
+                        if (window.syncSaveGifts) {
+                            window.syncSaveGifts(historyItem.gifts);
+                        }
+                    }
+                    
+                    updateCounts();
+                    window.showToast(`Đã tải dữ liệu lịch sử lần import: ${historyItem.timestamp}`);
+                }
+            }
+        });
+    }
 
     function htmlToTextWithSpaces(html) {
         let text = html.replace(/<br\s*\/?>/gi, '\n');
@@ -714,6 +771,8 @@ function initEditor() {
 
     // Load saved content if exists
     const loadSaved = async () => {
+        await loadExcelHistory();
+
         const savedContent = window.syncLoadDocument ? await window.syncLoadDocument() : localStorage.getItem('vpsg-editor-content');
         if (savedContent) {
             // Clean up legacy filter buttons from saved content
@@ -734,27 +793,47 @@ function initEditor() {
             });
             
             const cleanedContent = tempDiv.innerHTML;
-            editor.innerHTML = cleanedContent;
-            ensureTitleEditButtons();
+            const isAnhTai = (cleanedContent.indexOf('Tặng bánh Trung thu năm 2026') !== -1);
             
-            // If the signature block table exists but lacks edit buttons, remove it so it self-heals
-            const oldSig = editor.querySelector('.doc-signature-table');
-            if (oldSig && !oldSig.querySelector('.btn-edit-sig')) {
-                oldSig.remove();
-            }
-            
-            if (cleanedContent.indexOf('Tặng bánh Trung thu năm 2026') !== -1) {
+            if (isAnhTai) {
+                // Initialize with clean template for "anh Tài - cầu lông"
+                editor.innerHTML = EDITOR_TEMPLATES['anh-tai-cau-long'];
                 editor.classList.add('landscape-mode');
                 editor.style.fontFamily = "'Times New Roman', Times, serif";
-                if (templateSelect) templateSelect.value = 'anh-tai-cau-long';
+                if (templateSelect) {
+                    templateSelect.value = 'anh-tai-cau-long';
+                    templateSelect.dataset.prevValue = 'anh-tai-cau-long';
+                }
                 if (fontFamilySelect) fontFamilySelect.value = "'Times New Roman', Times, serif";
+                
+                // Show file history dropdown group
+                const fileHistoryGroup = document.getElementById('file-history-group');
+                if (fileHistoryGroup) fileHistoryGroup.style.display = 'block';
+                
+                updateHistoryDropdown();
             } else {
+                editor.innerHTML = cleanedContent;
+                ensureTitleEditButtons();
+                
+                const oldSig = editor.querySelector('.doc-signature-table');
+                if (oldSig && !oldSig.querySelector('.btn-edit-sig')) {
+                    oldSig.remove();
+                }
+                
                 editor.classList.remove('landscape-mode');
                 editor.style.fontFamily = "'Tahoma', 'Segoe UI', sans-serif";
                 if (fontFamilySelect) fontFamilySelect.value = "'Tahoma', 'Segoe UI', sans-serif";
+                
+                // Hide file history dropdown group
+                const fileHistoryGroup = document.getElementById('file-history-group');
+                if (fileHistoryGroup) fileHistoryGroup.style.display = 'none';
             }
             ensureSignatureBlock();
             updateCounts();
+        } else {
+            // Hide file history dropdown group if no content
+            const fileHistoryGroup = document.getElementById('file-history-group');
+            if (fileHistoryGroup) fileHistoryGroup.style.display = 'none';
         }
         if (templateSelect) {
             templateSelect.dataset.prevValue = templateSelect.value;
@@ -853,10 +932,19 @@ function initEditor() {
                         editor.classList.add('landscape-mode');
                         editor.style.fontFamily = "'Times New Roman', Times, serif";
                         if (fontFamilySelect) fontFamilySelect.value = "'Times New Roman', Times, serif";
+                        
+                        // Show file history dropdown group
+                        const fileHistoryGroup = document.getElementById('file-history-group');
+                        if (fileHistoryGroup) fileHistoryGroup.style.display = 'block';
+                        updateHistoryDropdown();
                     } else {
                         editor.classList.remove('landscape-mode');
                         editor.style.fontFamily = "'Tahoma', 'Segoe UI', sans-serif";
                         if (fontFamilySelect) fontFamilySelect.value = "'Tahoma', 'Segoe UI', sans-serif";
+                        
+                        // Hide file history dropdown group
+                        const fileHistoryGroup = document.getElementById('file-history-group');
+                        if (fileHistoryGroup) fileHistoryGroup.style.display = 'none';
                     }
                     updateCounts();
                     triggerAutoSave();
@@ -1137,6 +1225,23 @@ function initEditor() {
                     ensureSignatureBlock();
                     updateCounts();
                     triggerAutoSave();
+                    
+                    // Add to Excel upload history
+                    const now = new Date();
+                    const timeStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    const historyEntry = {
+                        timestamp: timeStr,
+                        editorHtml: editor.innerHTML,
+                        gifts: items
+                    };
+                    excelHistory.unshift(historyEntry);
+                    if (excelHistory.length > 10) {
+                        excelHistory = excelHistory.slice(0, 10);
+                    }
+                    saveExcelHistory().then(() => {
+                        updateHistoryDropdown();
+                    });
+                    
                     window.showToast('Nhập danh sách từ Excel thành công!');
                 } catch (err) {
                     console.error(err);
@@ -2129,6 +2234,14 @@ function ensureSignatureBlock() {
                     triggerAutoSave();
                 }
             }
+        }
+        
+        // Show/hide signature table based on table content
+        const tbody = editor.querySelector('table.doc-data-table tbody') || editor.querySelector('table:has(thead) tbody');
+        const sigTable = editor.querySelector('.doc-signature-table');
+        if (sigTable) {
+            const hasData = tbody && tbody.querySelectorAll('tr').length > 0;
+            sigTable.style.display = hasData ? 'table' : 'none';
         }
     }
 }

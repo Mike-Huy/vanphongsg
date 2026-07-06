@@ -371,8 +371,18 @@ const EDITOR_TEMPLATES = {
             <!-- Document Title -->
             <div style="text-align: center; margin-bottom: 25px;">
                 <h3 style="font-size: 15px; font-weight: bold; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 0.5px;">DANH SÁCH TỔNG HỢP</h3>
-                <h4 style="font-size: 13px; font-weight: bold; margin: 0 0 5px 0;">Tặng bánh Trung thu năm 2026 theo đề xuất của các cá nhân, Phòng, Ban và Nhà máy<br>thuộc Tổng Công ty</h4>
-                <p style="font-style: italic; font-size: 12px; margin: 0;">(Đính kèm theo Phiếu trình số &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/PT-VPCQ ngày &nbsp;&nbsp;&nbsp;&nbsp; tháng 9 năm 2025 của Văn phòng Tổng Công ty)</p>
+                <div class="title-flex-wrapper" style="display: inline-flex; align-items: center; gap: 8px; justify-content: center; width: 100%; position: relative;">
+                    <h4 id="doc-title-h4" style="font-size: 13px; font-weight: bold; margin: 0; display: inline-block;">Tặng bánh Trung thu năm 2026 theo đề xuất của các cá nhân, Phòng, Ban và Nhà máy<br>thuộc Tổng Công ty</h4>
+                    <button class="btn-edit-title no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.95rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Chỉnh sửa tiêu đề">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </div>
+                <div class="subtitle-flex-wrapper" style="display: inline-flex; align-items: center; gap: 8px; justify-content: center; width: 100%; position: relative; margin-top: 5px;">
+                    <p id="doc-title-p" style="font-style: italic; font-size: 12px; margin: 0; display: inline-block;">(Đính kèm theo Phiếu trình số &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/PT-VPCQ ngày &nbsp;&nbsp;&nbsp;&nbsp; tháng 9 năm 2025 của Văn phòng Tổng Công ty)</p>
+                    <button class="btn-edit-subtitle no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.95rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Chỉnh sửa phụ đề">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- Table Section -->
@@ -488,6 +498,140 @@ function initEditor() {
 
     if (!editor) return;
 
+    function htmlToTextWithSpaces(html) {
+        return html
+            .replace(/<br\s*\/?>/gi, '\n')
+            .replace(/&nbsp;/g, ' ');
+    }
+
+    function textToHtmlWithSpaces(text) {
+        return text
+            .replace(/\n/g, '<br>')
+            .replace(/ {2,}/g, (match) => '&nbsp;'.repeat(match.length));
+    }
+
+    function ensureTitleEditButtons() {
+        const h4 = editor.querySelector('h4');
+        if (h4 && h4.textContent.includes('Tặng bánh Trung thu') && !h4.id) {
+            let parent = h4.parentNode;
+            if (parent && !parent.classList.contains('title-flex-wrapper')) {
+                h4.id = 'doc-title-h4';
+                const wrapper = document.createElement('div');
+                wrapper.className = 'title-flex-wrapper';
+                wrapper.style.cssText = 'display: inline-flex; align-items: center; gap: 8px; justify-content: center; width: 100%; position: relative;';
+                parent.insertBefore(wrapper, h4);
+                wrapper.appendChild(h4);
+                
+                const btn = document.createElement('button');
+                btn.className = 'btn-edit-title no-export';
+                btn.setAttribute('contenteditable', 'false');
+                btn.style.cssText = 'background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.95rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;';
+                btn.title = 'Chỉnh sửa tiêu đề';
+                btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
+                wrapper.appendChild(btn);
+            }
+        }
+        
+        const p = editor.querySelector('p');
+        if (p && p.textContent.includes('Đính kèm theo Phiếu trình số') && !p.id) {
+            let parent = p.parentNode;
+            if (parent && !parent.classList.contains('subtitle-flex-wrapper')) {
+                p.id = 'doc-title-p';
+                const wrapper = document.createElement('div');
+                wrapper.className = 'subtitle-flex-wrapper';
+                wrapper.style.cssText = 'display: inline-flex; align-items: center; gap: 8px; justify-content: center; width: 100%; position: relative; margin-top: 5px;';
+                parent.insertBefore(wrapper, p);
+                wrapper.appendChild(p);
+                
+                const btn = document.createElement('button');
+                btn.className = 'btn-edit-subtitle no-export';
+                btn.setAttribute('contenteditable', 'false');
+                btn.style.cssText = 'background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.95rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;';
+                btn.title = 'Chỉnh sửa phụ đề';
+                btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
+                wrapper.appendChild(btn);
+            }
+        }
+    }
+
+    // Title / Subtitle Edit Modal Logic
+    const editTitleModal = document.getElementById('edit-title-modal');
+    const editTitleInput = document.getElementById('edit-title-input');
+    const btnSaveEditTitle = document.getElementById('btn-save-edit-title');
+    const closeEditTitleModal = document.getElementById('close-edit-title-modal');
+    const btnCloseEditTitleModalFooter = document.getElementById('btn-close-edit-title-modal-footer');
+    
+    let currentEditingTarget = null;
+    
+    const openEditTitleModal = (target) => {
+        currentEditingTarget = target;
+        if (!editTitleModal || !editTitleInput) return;
+        
+        const titleHeader = editTitleModal.querySelector('.modal-header h3');
+        
+        if (target === 'title') {
+            if (titleHeader) titleHeader.innerHTML = '<i class="fa-solid fa-pen-to-square text-blue"></i> Chỉnh sửa tiêu đề';
+            const h4 = editor.querySelector('#doc-title-h4');
+            if (h4) {
+                editTitleInput.value = htmlToTextWithSpaces(h4.innerHTML);
+            }
+        } else if (target === 'subtitle') {
+            if (titleHeader) titleHeader.innerHTML = '<i class="fa-solid fa-pen-to-square text-blue"></i> Chỉnh sửa phụ đề';
+            const p = editor.querySelector('#doc-title-p');
+            if (p) {
+                editTitleInput.value = htmlToTextWithSpaces(p.innerHTML);
+            }
+        }
+        
+        editTitleModal.classList.add('show');
+    };
+    
+    const hideEditTitleModal = () => {
+        if (editTitleModal) editTitleModal.classList.remove('show');
+    };
+    
+    if (closeEditTitleModal) closeEditTitleModal.addEventListener('click', hideEditTitleModal);
+    if (btnCloseEditTitleModalFooter) btnCloseEditTitleModalFooter.addEventListener('click', hideEditTitleModal);
+    
+    if (btnSaveEditTitle) {
+        btnSaveEditTitle.addEventListener('click', () => {
+            if (!editTitleModal || !editTitleInput) return;
+            const newValue = editTitleInput.value;
+            
+            if (currentEditingTarget === 'title') {
+                const h4 = editor.querySelector('#doc-title-h4');
+                if (h4) {
+                    h4.innerHTML = textToHtmlWithSpaces(newValue);
+                }
+            } else if (currentEditingTarget === 'subtitle') {
+                const p = editor.querySelector('#doc-title-p');
+                if (p) {
+                    p.innerHTML = textToHtmlWithSpaces(newValue);
+                }
+            }
+            
+            hideEditTitleModal();
+            triggerAutoSave();
+            window.showToast('Đã cập nhật thành công!');
+        });
+    }
+    
+    // Event delegation on editor to intercept edit button clicks
+    editor.addEventListener('click', (e) => {
+        const btnEditTitle = e.target.closest('.btn-edit-title');
+        const btnEditSubtitle = e.target.closest('.btn-edit-subtitle');
+        
+        if (btnEditTitle) {
+            e.preventDefault();
+            e.stopPropagation();
+            openEditTitleModal('title');
+        } else if (btnEditSubtitle) {
+            e.preventDefault();
+            e.stopPropagation();
+            openEditTitleModal('subtitle');
+        }
+    });
+
     // Load saved content if exists
     const loadSaved = async () => {
         const savedContent = window.syncLoadDocument ? await window.syncLoadDocument() : localStorage.getItem('vpsg-editor-content');
@@ -511,6 +655,7 @@ function initEditor() {
             
             const cleanedContent = tempDiv.innerHTML;
             editor.innerHTML = cleanedContent;
+            ensureTitleEditButtons();
             
             if (cleanedContent.indexOf('Tặng bánh Trung thu năm 2026') !== -1) {
                 editor.classList.add('landscape-mode');
@@ -609,6 +754,7 @@ function initEditor() {
                     triggerAutoSave();
                 } else if (EDITOR_TEMPLATES[value]) {
                     editor.innerHTML = EDITOR_TEMPLATES[value];
+                    ensureTitleEditButtons();
                     if (value === 'anh-tai-cau-long') {
                         editor.classList.add('landscape-mode');
                         editor.style.fontFamily = "'Times New Roman', Times, serif";
@@ -649,7 +795,10 @@ function initEditor() {
 
     // Copy Content
     btnCopy.addEventListener('click', () => {
-        const text = editor.innerText;
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = editor.innerHTML;
+        tempDiv.querySelectorAll('.no-export').forEach(el => el.remove());
+        const text = tempDiv.innerText;
         navigator.clipboard.writeText(text).then(() => {
             window.showToast('Đã copy văn bản vào clipboard!');
         }).catch(err => {
@@ -660,7 +809,12 @@ function initEditor() {
     // Print & Export to PDF
     btnPrint.addEventListener('click', () => {
         const printWindow = window.open('', '_blank');
-        const contentHtml = editor.innerHTML;
+        
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = editor.innerHTML;
+        tempDiv.querySelectorAll('.no-export').forEach(el => el.remove());
+        const contentHtml = tempDiv.innerHTML;
+        
         const isLandscape = editor.classList.contains('landscape-mode');
         
         printWindow.document.write(`
@@ -704,7 +858,11 @@ function initEditor() {
 
     // Download as Word Document (.doc)
     btnDownload.addEventListener('click', () => {
-        const content = editor.innerHTML;
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = editor.innerHTML;
+        tempDiv.querySelectorAll('.no-export').forEach(el => el.remove());
+        const content = tempDiv.innerHTML;
+        
         const isLandscape = editor.classList.contains('landscape-mode');
         
         const html = `

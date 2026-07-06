@@ -869,6 +869,25 @@
             </div>
         </div>
     </div>
+    <!-- Edit Title Modal -->
+    <div id="edit-title-modal" class="modal">
+        <div class="modal-content" style="max-width: 500px; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg);">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-pen-to-square text-blue"></i> Chỉnh sửa tiêu đề</h3>
+                <span class="modal-close" id="close-edit-title-modal">&times;</span>
+            </div>
+            <div class="modal-body" style="padding: 20px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="edit-title-input" style="font-weight: 600; margin-bottom: 8px; display: block; font-size: 1.1rem; color: var(--text-medium);">Nội dung văn bản:</label>
+                    <textarea id="edit-title-input" rows="4" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--border-radius-sm); font-size: 1.25rem; font-family: inherit; line-height: 1.5; outline: none; transition: var(--transition-fast);" onfocus="this.style.borderColor='var(--primary-blue)'" onblur="this.style.borderColor='var(--border-color)'"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 15px 24px; gap: 12px; justify-content: flex-end; background: #f8fafc; border-top: 1px solid var(--border-color); border-bottom-left-radius: var(--border-radius-lg); border-bottom-right-radius: var(--border-radius-lg);">
+                <button class="btn btn-secondary" id="btn-close-edit-title-modal-footer" style="min-width: 100px; padding: 8px 20px; font-size: 1.1rem; font-weight: 600;">Hủy</button>
+                <button class="btn btn-primary" id="btn-save-edit-title" style="min-width: 100px; padding: 8px 20px; font-size: 1.1rem; font-weight: 600;">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Notification Toast -->
     <div id="toast" class="toast">

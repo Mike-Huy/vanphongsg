@@ -40,7 +40,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Tahoma', 'Segoe UI', sans-serif;
 }
 
 html {
@@ -49,6 +48,7 @@ html {
 }
 
 body {
+    font-family: 'Tahoma', 'Segoe UI', sans-serif;
     font-size: 1rem; /* Exactly 10px base */
     background-color: var(--bg-app);
     color: var(--text-dark);
@@ -489,6 +489,16 @@ button, input, select, textarea {
 }
 .btn-secondary:hover {
     background-color: #d2e4f7;
+}
+
+.btn-success {
+    background-color: var(--success-light);
+    color: var(--success-green);
+    border-color: #a3cfbb;
+}
+.btn-success:hover {
+    background-color: var(--success-green);
+    color: #ffffff;
 }
 
 .btn-danger {

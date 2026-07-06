@@ -474,6 +474,57 @@ const EDITOR_TEMPLATES = {
                     </tr>
                 </tbody>
             </table>
+
+            <!-- Signature Section -->
+            <table class="doc-signature-table" style="width: 100%; border-collapse: collapse; border: none; font-size: 12px; margin-top: 30px; font-family: Tahoma, 'Segoe UI', sans-serif; page-break-inside: avoid;">
+                <tr>
+                    <td style="width: 35%; text-align: center; vertical-align: top; padding: 0; line-height: 1.5;">
+                        <div class="sig-title-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
+                            <span class="sig-title" style="font-weight: bold; text-transform: uppercase;">TỔNG GIÁM ĐỐC</span>
+                            <button class="btn-edit-sig no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Sửa chức danh">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
+                        <div style="height: 80px;"></div>
+                        <div class="sig-name-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
+                            <span class="sig-name" style="font-weight: bold;">Nguyễn Phương Nam</span>
+                            <button class="btn-edit-sig no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Sửa họ tên">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td style="width: 35%; text-align: center; vertical-align: top; padding: 0; line-height: 1.5;">
+                        <div class="sig-title-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
+                            <span class="sig-title" style="font-weight: bold; text-transform: uppercase; display: block; text-align: center;">TL. CHÁNH VĂN PHÒNG<br><span style="font-size: 11px;">PHÓ CHÁNH VĂN PHÒNG</span></span>
+                            <button class="btn-edit-sig no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Sửa chức danh">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
+                        <div style="height: 62px;"></div>
+                        <div class="sig-name-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
+                            <span class="sig-name" style="font-weight: bold;">Mai Xuân Chánh</span>
+                            <button class="btn-edit-sig no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Sửa họ tên">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td style="width: 30%; text-align: center; vertical-align: top; padding: 0; line-height: 1.5;">
+                        <div class="sig-title-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
+                            <span class="sig-title" style="font-weight: bold; text-transform: uppercase;">NGƯỜI LẬP</span>
+                            <button class="btn-edit-sig no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Sửa chức danh">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
+                        <div style="height: 80px;"></div>
+                        <div class="sig-name-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
+                            <span class="sig-name" style="font-weight: bold;">Cao Minh Duy</span>
+                            <button class="btn-edit-sig no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Sửa họ tên">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
     `
 };
@@ -499,9 +550,10 @@ function initEditor() {
     if (!editor) return;
 
     function htmlToTextWithSpaces(html) {
-        return html
-            .replace(/<br\s*\/?>/gi, '\n')
-            .replace(/&nbsp;/g, ' ');
+        let text = html.replace(/<br\s*\/?>/gi, '\n');
+        const temp = document.createElement('div');
+        temp.innerHTML = text;
+        return (temp.textContent || temp.innerText || '').replace(/&nbsp;/g, ' ');
     }
 
     function textToHtmlWithSpaces(text) {
@@ -581,6 +633,14 @@ function initEditor() {
             if (p) {
                 editTitleInput.value = htmlToTextWithSpaces(p.innerHTML);
             }
+        } else if (target instanceof HTMLElement) {
+            const isTitle = target.classList.contains('sig-title');
+            if (titleHeader) {
+                titleHeader.innerHTML = isTitle 
+                    ? '<i class="fa-solid fa-pen-to-square text-blue"></i> Chỉnh sửa chức danh ký' 
+                    : '<i class="fa-solid fa-pen-to-square text-blue"></i> Chỉnh sửa họ tên người ký';
+            }
+            editTitleInput.value = htmlToTextWithSpaces(target.innerHTML);
         }
         
         editTitleModal.classList.add('show');
@@ -608,6 +668,17 @@ function initEditor() {
                 if (p) {
                     p.innerHTML = textToHtmlWithSpaces(newValue);
                 }
+            } else if (currentEditingTarget instanceof HTMLElement) {
+                if (currentEditingTarget.classList.contains('sig-title')) {
+                    const lines = newValue.split('\n');
+                    if (lines.length > 1) {
+                        currentEditingTarget.innerHTML = lines[0] + lines.slice(1).map(line => `<br><span style="font-size: 11px;">${line}</span>`).join('');
+                    } else {
+                        currentEditingTarget.innerHTML = newValue;
+                    }
+                } else {
+                    currentEditingTarget.innerHTML = textToHtmlWithSpaces(newValue);
+                }
             }
             
             hideEditTitleModal();
@@ -620,6 +691,7 @@ function initEditor() {
     editor.addEventListener('click', (e) => {
         const btnEditTitle = e.target.closest('.btn-edit-title');
         const btnEditSubtitle = e.target.closest('.btn-edit-subtitle');
+        const btnEditSig = e.target.closest('.btn-edit-sig');
         
         if (btnEditTitle) {
             e.preventDefault();
@@ -629,6 +701,14 @@ function initEditor() {
             e.preventDefault();
             e.stopPropagation();
             openEditTitleModal('subtitle');
+        } else if (btnEditSig) {
+            e.preventDefault();
+            e.stopPropagation();
+            const wrapper = btnEditSig.parentElement;
+            const textSpan = wrapper?.querySelector('.sig-title, .sig-name');
+            if (textSpan) {
+                openEditTitleModal(textSpan);
+            }
         }
     });
 
@@ -657,6 +737,12 @@ function initEditor() {
             editor.innerHTML = cleanedContent;
             ensureTitleEditButtons();
             
+            // If the signature block table exists but lacks edit buttons, remove it so it self-heals
+            const oldSig = editor.querySelector('.doc-signature-table');
+            if (oldSig && !oldSig.querySelector('.btn-edit-sig')) {
+                oldSig.remove();
+            }
+            
             if (cleanedContent.indexOf('Tặng bánh Trung thu năm 2026') !== -1) {
                 editor.classList.add('landscape-mode');
                 editor.style.fontFamily = "'Times New Roman', Times, serif";
@@ -667,6 +753,7 @@ function initEditor() {
                 editor.style.fontFamily = "'Tahoma', 'Segoe UI', sans-serif";
                 if (fontFamilySelect) fontFamilySelect.value = "'Tahoma', 'Segoe UI', sans-serif";
             }
+            ensureSignatureBlock();
             updateCounts();
         }
         if (templateSelect) {
@@ -687,6 +774,13 @@ function initEditor() {
             } else {
                 localStorage.setItem('vpsg-editor-content', editor.innerHTML);
             }
+            
+            // Sync structured gift records to Supabase table
+            if (window.syncSaveGifts) {
+                const gifts = extractDataFromEditorTable();
+                await window.syncSaveGifts(gifts);
+            }
+
             saveStatus.textContent = 'Đã lưu tự động';
             saveStatus.style.color = '#198754';
         }, 1500);
@@ -1040,6 +1134,7 @@ function initEditor() {
                     if (tbody) {
                         tbody.innerHTML = tableHtml;
                     }
+                    ensureSignatureBlock();
                     updateCounts();
                     triggerAutoSave();
                     window.showToast('Nhập danh sách từ Excel thành công!');
@@ -1105,6 +1200,7 @@ function initEditor() {
                     if (tbody) {
                         tbody.innerHTML = tableHtml;
                     }
+                    ensureSignatureBlock();
                     
                     // Update stats and trigger autosave
                     updateCounts();
@@ -1141,6 +1237,11 @@ function initEditor() {
             reportModal.classList.add('show');
         });
 
+        const btnExportReportExcel = document.getElementById('btn-export-report-excel');
+        if (btnExportReportExcel) {
+            btnExportReportExcel.addEventListener('click', exportReportToExcel);
+        }
+
         const hideReport = () => reportModal.classList.remove('show');
         if (closeReportModal) closeReportModal.addEventListener('click', hideReport);
         if (closeReportModalFooter) closeReportModalFooter.addEventListener('click', hideReport);
@@ -1167,21 +1268,42 @@ function extractDataFromEditorTable() {
     const rows = table.querySelectorAll('tbody tr');
     const data = [];
     let currentGroupName = 'Khác';
+    let currentSubgroupName = 'Khác';
 
     rows.forEach(row => {
         const firstCellText = row.cells[0]?.textContent.trim();
-        // Skip yellow summary row
-        if (firstCellText === '(1)' || row.style.backgroundColor === 'rgb(255, 255, 0)' || row.getAttribute('style')?.includes('#ffff00')) {
+        
+        // Detect if this is a group header row (Yellow row)
+        const isGroupHeader = row.classList.contains('group-header-row') || 
+            (row.cells.length === 4 && row.cells[1]?.colSpan === 3 && !row.cells[0]?.textContent.trim().endsWith('.'));
+
+        // Skip yellow summary row (but NOT group headers)
+        if (!isGroupHeader && (firstCellText === '(1)' || row.style.backgroundColor === 'rgb(255, 255, 0)' || row.getAttribute('style')?.includes('#ffff00'))) {
             return;
         }
 
-        // Check if it's a group header row (colspan is large or cell text ends with ".")
-        if (row.cells.length <= 3 && (row.cells[1]?.colSpan >= 5 || (firstCellText && firstCellText.endsWith('.')))) {
-            currentGroupName = row.cells[1]?.textContent.trim() || 'Khác';
+        // 1. Detect Nhóm header row (Yellow row)
+        if (isGroupHeader) {
+            const stt = row.cells.length === 4 ? row.cells[0]?.textContent.trim() : '';
+            const title = row.cells.length === 4 ? row.cells[1]?.textContent.trim() : row.cells[0]?.textContent.trim();
+            currentGroupName = normalizeGroupName(stt ? `${stt} - ${title}` : title);
             return;
         }
 
-        // Parse member row
+        // 2. Detect Ban ngành header row (White row)
+        if (row.classList.contains('subgroup-header-row') || 
+            (row.cells.length <= 3 && (row.cells[1]?.colSpan >= 5 || (firstCellText && firstCellText.endsWith('.')))) ||
+            (row.cells.length === 4 && row.cells[1]?.colSpan === 3 && row.cells[0]?.textContent.trim().endsWith('.'))) {
+            
+            currentSubgroupName = row.cells.length === 4 ? row.cells[1]?.textContent.trim() : (row.cells[1]?.textContent.trim() || 'Khác');
+            // Backwards compatibility for single-level tables
+            if (currentGroupName === 'Khác' || !currentGroupName) {
+                currentGroupName = currentSubgroupName;
+            }
+            return;
+        }
+
+        // 3. Parse member row
         if (row.cells.length >= 7) {
             let stt, name, title, address, qty, proposer, approver, note;
             
@@ -1226,6 +1348,7 @@ function extractDataFromEditorTable() {
 
             data.push({
                 group: currentGroupName,
+                subgroup: currentSubgroupName,
                 stt,
                 name,
                 title,
@@ -1314,7 +1437,10 @@ function renderModalGridFiltered() {
         
         tbodyHtml += `
             <tr>
-                <td style="font-weight: bold; color: var(--primary-blue);">${item.group}</td>
+                <td style="font-weight: bold; color: var(--primary-blue);">
+                    <div>${item.group || 'Khác'}</div>
+                    ${item.subgroup && item.subgroup !== item.group ? `<div style="font-size: 11px; color: #64748b; font-weight: normal; margin-top: 2px;">${item.subgroup}</div>` : ''}
+                </td>
                 <td style="text-align: center;">${item.stt}</td>
                 <td style="font-weight: 500;">${item.name}</td>
                 <td>${item.title}</td>
@@ -1364,6 +1490,7 @@ function deleteGridRow(idx) {
     if (tbody) {
         tbody.innerHTML = tableHtml;
     }
+    ensureSignatureBlock();
     
     // 4. Update stats and trigger autosave
     updateCounts();
@@ -1379,28 +1506,32 @@ function deleteGridRow(idx) {
 }
 
 function generateReport(data) {
+    const totalGroupsEl = document.getElementById('report-total-groups');
     const totalDeptsEl = document.getElementById('report-total-depts');
     const totalPeopleEl = document.getElementById('report-total-people');
     const totalBoxesEl = document.getElementById('report-total-boxes');
     const tableBody = document.getElementById('report-table-body');
 
     if (data.length === 0) {
+        if (totalGroupsEl) totalGroupsEl.textContent = '0';
         if (totalDeptsEl) totalDeptsEl.textContent = '0';
         if (totalPeopleEl) totalPeopleEl.textContent = '0';
         if (totalBoxesEl) totalBoxesEl.textContent = '0';
         if (tableBody) {
             tableBody.innerHTML = `
                 <tr>
-                    <td colspan="4" style="text-align: center; color: #94a3b8; padding: 20px;">Không có dữ liệu để báo cáo.</td>
+                    <td colspan="5" style="text-align: center; color: #94a3b8; padding: 20px;">Không có dữ liệu để báo cáo.</td>
                 </tr>
             `;
         }
         return;
     }
 
-    const depts = {};
+    const reportData = {};
     let grandTotalBoxes = 0;
     let grandTotalPeople = 0;
+    const uniqueDepts = new Set();
+    const uniqueGroups = new Set();
 
     data.forEach(item => {
         let dept = item.proposer || 'Chưa phân loại';
@@ -1411,33 +1542,74 @@ function generateReport(data) {
         else if (deptUpper === 'KTAT') dept = 'Phòng Kỹ thuật An toàn';
         else if (deptUpper === 'TCKT') dept = 'Phòng Tài chính Kế toán';
 
-        if (!depts[dept]) {
-            depts[dept] = {
-                name: dept,
+        uniqueDepts.add(dept);
+
+        const rawGroup = item.group || 'Khác';
+        const groupName = normalizeGroupName(rawGroup);
+        uniqueGroups.add(groupName);
+
+        const key = `${groupName} ||| ${dept}`;
+        
+        if (!reportData[key]) {
+            reportData[key] = {
+                group: groupName,
+                dept: dept,
                 peopleCount: 0,
                 boxesCount: 0
             };
         }
-        depts[dept].peopleCount += 1;
-        depts[dept].boxesCount += item.qty;
+        reportData[key].peopleCount += 1;
+        reportData[key].boxesCount += item.qty;
         grandTotalPeople += 1;
         grandTotalBoxes += item.qty;
     });
 
-    const deptList = Object.values(depts).sort((a, b) => b.boxesCount - a.boxesCount);
+    // Convert to list and sort:
+    // 1. By group name alphabetically (localeCompare)
+    // 2. By boxesCount descending
+    const reportList = Object.values(reportData).sort((a, b) => {
+        const groupCompare = a.group.localeCompare(b.group);
+        if (groupCompare !== 0) return groupCompare;
+        return b.boxesCount - a.boxesCount;
+    });
 
-    if (totalDeptsEl) totalDeptsEl.textContent = deptList.length;
+    // Calculate rowspan for Group column
+    let i = 0;
+    while (i < reportList.length) {
+        let run = 1;
+        while (i + run < reportList.length && reportList[i + run].group === reportList[i].group) {
+            run++;
+        }
+        for (let j = 0; j < run; j++) {
+            reportList[i + j].rowspan = (j === 0) ? run : 0;
+        }
+        i += run;
+    }
+
+    if (totalGroupsEl) totalGroupsEl.textContent = uniqueGroups.size;
+    if (totalDeptsEl) totalDeptsEl.textContent = uniqueDepts.size;
     if (totalPeopleEl) totalPeopleEl.textContent = grandTotalPeople;
     if (totalBoxesEl) totalBoxesEl.textContent = grandTotalBoxes;
 
     let tbodyHtml = '';
-    deptList.forEach((dept, idx) => {
+    reportList.forEach((row, idx) => {
         tbodyHtml += `
             <tr style="border-bottom: 1px solid #e5e7eb;">
                 <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: 500;">${idx + 1}</td>
-                <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: 600; color: var(--text-dark);">${dept.name}</td>
-                <td style="padding: 10px; border: 1px solid #e5e7eb; text-align: center; font-weight: 500;">${dept.peopleCount}</td>
-                <td style="padding: 10px; border: 1px solid #e5e7eb; text-align: center; font-weight: bold; color: #166534;">${dept.boxesCount}</td>
+        `;
+
+        if (row.rowspan > 0) {
+            tbodyHtml += `
+                <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: 600; color: #1e40af; background-color: #f8fafc;" rowspan="${row.rowspan}">
+                    ${row.group}
+                </td>
+            `;
+        }
+
+        tbodyHtml += `
+                <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: 500; color: var(--text-dark);">${row.dept}</td>
+                <td style="padding: 10px; border: 1px solid #e5e7eb; text-align: center; font-weight: 500;">${row.peopleCount}</td>
+                <td style="padding: 10px; border: 1px solid #e5e7eb; text-align: center; font-weight: bold; color: #166534;">${row.boxesCount}</td>
             </tr>
         `;
     });
@@ -1445,13 +1617,55 @@ function generateReport(data) {
     // Add a summary total row at the bottom
     tbodyHtml += `
         <tr style="background: #f8fafc; font-weight: bold; border-top: 2px solid #cbd5e1;">
-            <td style="padding: 10px; border: 1px solid #e5e7eb;" colspan="2">Tổng cộng</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;" colspan="3">Tổng cộng</td>
             <td style="padding: 10px; border: 1px solid #e5e7eb; text-align: center;">${grandTotalPeople}</td>
             <td style="padding: 10px; border: 1px solid #e5e7eb; text-align: center; color: #15803d;">${grandTotalBoxes}</td>
         </tr>
     `;
 
     if (tableBody) tableBody.innerHTML = tbodyHtml;
+}
+
+function exportReportToExcel() {
+    const reportTable = document.querySelector('.report-table');
+    if (!reportTable) {
+        if (window.showToast) {
+            window.showToast("Không tìm thấy bảng báo cáo để xuất!", "error");
+        }
+        return;
+    }
+    
+    try {
+        const worksheet = XLSX.utils.table_to_sheet(reportTable);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Báo cáo tổng hợp");
+        
+        // Auto-fit column widths
+        const range = XLSX.utils.decode_range(worksheet['!ref']);
+        const cols = [];
+        for (let C = range.s.c; C <= range.e.c; ++C) {
+            let maxLen = 10;
+            for (let R = range.s.r; R <= range.e.r; ++R) {
+                const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
+                const cell = worksheet[cellRef];
+                if (cell && cell.v) {
+                    maxLen = Math.max(maxLen, String(cell.v).length);
+                }
+            }
+            cols.push({ wch: maxLen + 3 });
+        }
+        worksheet['!cols'] = cols;
+        
+        XLSX.writeFile(workbook, "Bao_Cao_Tong_Hop_Qua_Tang.xlsx");
+        if (window.showToast) {
+            window.showToast("Đã xuất Excel báo cáo thành công!");
+        }
+    } catch (err) {
+        console.error(err);
+        if (window.showToast) {
+            window.showToast("Lỗi khi xuất Excel báo cáo: " + err.message, "error");
+        }
+    }
 }
 
 // Remove Vietnamese diacritics / tones for robust column key matching
@@ -1476,25 +1690,56 @@ function removeVietnameseTones(str) {
     return str;
 }
 
+// Canonical Group Name Normalizer to avoid split groups due to minor spelling/separators
+function normalizeGroupName(gName) {
+    if (!gName) return 'Khác';
+    gName = String(gName).trim();
+    // Replace multiple spaces with a single space
+    gName = gName.replace(/\s+/g, ' ');
+    
+    // Match letter prefix: e.g. "A", "B", "C" followed by dot, hyphen, en-dash, em-dash, colon, spaces
+    const match = gName.match(/^([A-Z])[\s\.\-\–\—\:]+(.*)$/i);
+    if (match) {
+        const groupStt = match[1].toUpperCase();
+        const groupTitle = match[2].trim();
+        return `${groupStt} - ${groupTitle}`;
+    }
+    return gName;
+}
+
 // Normalized Excel Parsing Helpers
 function parseExcelData(rawData) {
+    let lastGroup = '';
     return rawData.map(row => {
         const findVal = (prefixes) => {
             const key = Object.keys(row).find(k => 
                 prefixes.some(p => {
                     const normalizedKey = removeVietnameseTones(k).toLowerCase().replace(/\s+/g, '').replace(/[-_]/g, '');
                     const normalizedPrefix = removeVietnameseTones(p).toLowerCase().replace(/\s+/g, '').replace(/[-_]/g, '');
-                    return normalizedKey.includes(normalizedPrefix);
+                    return normalizedKey === normalizedPrefix || normalizedKey.includes(normalizedPrefix);
                 })
             );
             return key ? row[key] : '';
         };
 
+        const parsedGroup = findVal(['nhom', 'group']);
+        const parsedSubgroup = findVal(['bannganh', 'ban_nganh', 'subgroup', 'sub_group']);
+        
+        let rawGroup = '';
+        if (parsedGroup && String(parsedGroup).trim() !== '') {
+            rawGroup = parsedGroup;
+            lastGroup = parsedGroup;
+        } else if (lastGroup !== '') {
+            rawGroup = lastGroup;
+        } else {
+            rawGroup = parsedSubgroup || 'Khác';
+        }
+
         return {
-            name: findVal(['ho', 'ten', 'name']),
-            title: findVal(['chuc', 'title']),
-            address: findVal(['dia', 'address']),
-            qty: parseFloat(findVal(['so', 'qty', 'quantity'])) || 1,
+            name: findVal(['hovaten', 'hoten', 'ho_ten', 'name', 'ten']),
+            title: findVal(['chucvu', 'chuc_vu', 'chuc', 'title', 'position']),
+            address: findVal(['diachi', 'dia_chi', 'dia', 'address']),
+            qty: parseFloat(findVal(['soluong', 'so_luong', 'quantity', 'qty', 'so'])) || 1,
             proposer: (() => {
                 let p = findVal(['phong', 'donvi', 'de_xuat', 'proposed', 'nguoi_de_xuat']);
                 const propUpper = p.trim().toUpperCase();
@@ -1507,91 +1752,216 @@ function parseExcelData(rawData) {
             })(),
             approver: findVal(['duyet', 'lanh_dao', 'approved']),
             note: findVal(['ghi', 'note']),
-            group: findVal(['bannganh', 'ban_nganh', 'nhom', 'group'])
+            group: normalizeGroupName(rawGroup),
+            subgroup: (parsedSubgroup || 'Khác').trim()
         };
     });
 }
 
 function generateTableHtml(items) {
-    const groups = {};
-    let totalQty = 0;
+    if (!items || items.length === 0) return '';
     
-    items.forEach(item => {
-        const groupName = item.group || 'Khác';
-        if (!groups[groupName]) {
-            groups[groupName] = [];
+    // Check if we have two distinct levels of grouping
+    let hasTwoLevels = false;
+    for (const item of items) {
+        if (item.group && item.subgroup && item.group !== item.subgroup && item.group !== 'Khác') {
+            hasTwoLevels = true;
+            break;
         }
-        groups[groupName].push(item);
-        totalQty += item.qty;
-    });
-
-    let tbodyHtml = ``;
+    }
 
     const getRoman = (num) => {
         const roman = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"];
         return roman[num] || num;
     };
 
-    let groupIndex = 1;
-    for (const groupName in groups) {
-        const groupItems = groups[groupName];
-        const groupQtySum = groupItems.reduce((sum, item) => sum + item.qty, 0);
+    let tbodyHtml = ``;
 
-        tbodyHtml += `
-            <tr style="font-weight: bold; font-size: 11px;">
-                <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${getRoman(groupIndex)}.</td>
-                <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left; vertical-align: middle;" colspan="6">${groupName}</td>
-                <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${groupQtySum}</td>
-            </tr>
-        `;
+    if (hasTwoLevels) {
+        // Group by Nhóm (group) first, then by Ban ngành (subgroup)
+        const nestedGroups = {};
+        items.forEach(item => {
+            const gName = normalizeGroupName(item.group || 'Khác');
+            const sgName = (item.subgroup || 'Khác').trim();
+            if (!nestedGroups[gName]) {
+                nestedGroups[gName] = {};
+            }
+            if (!nestedGroups[gName][sgName]) {
+                nestedGroups[gName][sgName] = [];
+            }
+            nestedGroups[gName][sgName].push(item);
+        });
 
-        let i = 0;
-        while (i < groupItems.length) {
-            let run = 1;
-            const currentAddress = groupItems[i].address;
-            
-            if (currentAddress && String(currentAddress).trim() !== '') {
-                while (i + run < groupItems.length && String(groupItems[i + run].address).trim() === String(currentAddress).trim()) {
-                    run++;
-                }
+        // Sort Nhóm alphabetically (e.g. A., B., C., D. ...)
+        const sortedGroupNames = Object.keys(nestedGroups).sort((a, b) => a.localeCompare(b));
+
+        sortedGroupNames.forEach(groupName => {
+            // Split Group Name into STT and Title (e.g., "A - CƠ QUAN HÀNH CHÍNH" -> STT "A", Title "CƠ QUAN HÀNH CHÍNH")
+            let groupStt = '';
+            let groupTitle = groupName;
+            const match = groupName.match(/^([A-Z])[\s\.\-]+(.*)$/i);
+            if (match) {
+                groupStt = match[1];
+                groupTitle = match[2].trim();
             }
 
-            for (let j = 0; j < run; j++) {
-                const item = groupItems[i + j];
-                const isFirstOfAddress = (j === 0);
-                
-                tbodyHtml += `
-                    <tr style="font-size: 11px;">
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${i + j + 1}</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle; font-size: 13px;">${item.name}</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left; vertical-align: middle; line-height: 1.3;">${String(item.title).replace(/\n/g, '<br>')}</td>
-                `;
+            const subgroups = nestedGroups[groupName];
+            
+            // Calculate total sum of quantity for this entire Nhóm
+            let groupQtySum = 0;
+            for (const subgroupName in subgroups) {
+                groupQtySum += subgroups[subgroupName].reduce((sum, item) => sum + item.qty, 0);
+            }
 
-                if (currentAddress && String(currentAddress).trim() !== '') {
-                    if (isFirstOfAddress) {
-                        tbodyHtml += `
-                            <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle; line-height: 1.3;" rowspan="${run}">
-                                ${String(currentAddress).replace(/\n/g, '<br>')}
-                            </td>
-                        `;
-                    }
-                } else {
-                    tbodyHtml += `
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;"></td>
-                    `;
-                }
+            // Render Nhóm header row (Yellow row)
+            tbodyHtml += `
+                <tr class="group-header-row" style="font-weight: bold; font-size: 11px; background-color: #ffff00; text-align: left;">
+                    <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle; color: #ff0000;">${groupStt}</td>
+                    <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left; vertical-align: middle; color: #ff0000;" colspan="3">${groupTitle}</td>
+                    <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle; color: #ff0000;">${groupQtySum}</td>
+                    <td style="border: 1px solid #000000; padding: 6px 4px;" colspan="3"></td>
+                </tr>
+            `;
 
+            let subgroupIndex = 1;
+
+            for (const subgroupName in subgroups) {
+                const groupItems = subgroups[subgroupName];
+                const subgroupQtySum = groupItems.reduce((sum, item) => sum + item.qty, 0);
+
+                // Render Ban ngành header row (White row)
                 tbodyHtml += `
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${item.qty}</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${item.proposer}</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${item.approver}</td>
-                        <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle;">${item.note}</td>
+                    <tr class="subgroup-header-row" style="font-weight: bold; font-size: 11px; background-color: #ffffff;">
+                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${getRoman(subgroupIndex)}.</td>
+                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left; vertical-align: middle;" colspan="3">${subgroupName}</td>
+                        <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${subgroupQtySum}</td>
+                        <td style="border: 1px solid #000000; padding: 6px 4px;" colspan="3"></td>
                     </tr>
                 `;
+
+                // Render member rows
+                let i = 0;
+                while (i < groupItems.length) {
+                    let run = 1;
+                    const currentAddress = groupItems[i].address;
+                    
+                    if (currentAddress && String(currentAddress).trim() !== '') {
+                        while (i + run < groupItems.length && String(groupItems[i + run].address).trim() === String(currentAddress).trim()) {
+                            run++;
+                        }
+                    }
+
+                    for (let j = 0; j < run; j++) {
+                        const item = groupItems[i + j];
+                        const isFirstOfAddress = (j === 0);
+                        
+                        tbodyHtml += `
+                            <tr style="font-size: 11px;">
+                                <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${i + j + 1}</td>
+                                <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle; font-size: 13px;">${item.name}</td>
+                                <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left; vertical-align: middle; line-height: 1.3;">${String(item.title).replace(/\n/g, '<br>')}</td>
+                        `;
+
+                        if (currentAddress && String(currentAddress).trim() !== '') {
+                            if (isFirstOfAddress) {
+                                tbodyHtml += `
+                                    <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle; line-height: 1.3;" rowspan="${run}">
+                                        ${String(currentAddress).replace(/\n/g, '<br>')}
+                                    </td>
+                                `;
+                            }
+                        } else {
+                            tbodyHtml += `
+                                <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;"></td>
+                            `;
+                        }
+
+                        tbodyHtml += `
+                                <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${item.qty}</td>
+                                <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${item.proposer}</td>
+                                <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${item.approver}</td>
+                                <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle;">${item.note}</td>
+                            </tr>
+                        `;
+                    }
+                    i += run;
+                }
+
+                subgroupIndex++;
             }
-            i += run;
+        });
+    } else {
+        // Fallback to original single-level grouping (by group or subgroup)
+        const groups = {};
+        items.forEach(item => {
+            const groupName = item.subgroup || item.group || 'Khác';
+            if (!groups[groupName]) {
+                groups[groupName] = [];
+            }
+            groups[groupName].push(item);
+        });
+
+        let groupIndex = 1;
+        for (const groupName in groups) {
+            const groupItems = groups[groupName];
+            const groupQtySum = groupItems.reduce((sum, item) => sum + item.qty, 0);
+
+            tbodyHtml += `
+                <tr style="font-weight: bold; font-size: 11px;">
+                    <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${getRoman(groupIndex)}.</td>
+                    <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left; vertical-align: middle;" colspan="6">${groupName}</td>
+                    <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${groupQtySum}</td>
+                </tr>
+            `;
+
+            let i = 0;
+            while (i < groupItems.length) {
+                let run = 1;
+                const currentAddress = groupItems[i].address;
+                
+                if (currentAddress && String(currentAddress).trim() !== '') {
+                    while (i + run < groupItems.length && String(groupItems[i + run].address).trim() === String(currentAddress).trim()) {
+                        run++;
+                    }
+                }
+
+                for (let j = 0; j < run; j++) {
+                    const item = groupItems[i + j];
+                    const isFirstOfAddress = (j === 0);
+                    
+                    tbodyHtml += `
+                        <tr style="font-size: 11px;">
+                            <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${i + j + 1}</td>
+                            <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle; font-size: 13px;">${item.name}</td>
+                            <td style="border: 1px solid #000000; padding: 6px 4px; text-align: left; vertical-align: middle; line-height: 1.3;">${String(item.title).replace(/\n/g, '<br>')}</td>
+                    `;
+
+                    if (currentAddress && String(currentAddress).trim() !== '') {
+                        if (isFirstOfAddress) {
+                            tbodyHtml += `
+                                <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle; line-height: 1.3;" rowspan="${run}">
+                                    ${String(currentAddress).replace(/\n/g, '<br>')}
+                                </td>
+                            `;
+                        }
+                    } else {
+                        tbodyHtml += `
+                            <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;"></td>
+                        `;
+                    }
+
+                    tbodyHtml += `
+                            <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${item.qty}</td>
+                            <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${item.proposer}</td>
+                            <td style="border: 1px solid #000000; padding: 6px 4px; text-align: center; vertical-align: middle;">${item.approver}</td>
+                            <td style="border: 1px solid #000000; padding: 6px 4px; vertical-align: middle;">${item.note}</td>
+                        </tr>
+                    `;
+                }
+                i += run;
+            }
+            groupIndex++;
         }
-        groupIndex++;
     }
 
     return tbodyHtml;
@@ -1617,6 +1987,7 @@ window.insertTextToEditor = function(text) {
 function downloadExcelTemplate() {
     const data = [
         {
+            "Nhóm": "A - CƠ QUAN HÀNH CHÍNH",
             "Ban ngành": "Thường trực Thành ủy",
             "Họ tên": "Ông Trần Lưu Quang",
             "Chức vụ": "Ủy viên Bộ Chính trị, Bí thư Thành ủy Thành phố Hồ Chí Minh",
@@ -1627,6 +1998,7 @@ function downloadExcelTemplate() {
             "Ghi chú": ""
         },
         {
+            "Nhóm": "A - CƠ QUAN HÀNH CHÍNH",
             "Ban ngành": "Thường trực Thành ủy",
             "Họ tên": "Ông Lê Quốc Phong",
             "Chức vụ": "Ủy viên BCH TW Đảng, Phó Bí thư Thường trực Thành ủy",
@@ -1637,10 +2009,11 @@ function downloadExcelTemplate() {
             "Ghi chú": ""
         },
         {
-            "Ban ngành": "Các ban Đảng Thành ủy",
-            "Họ tên": "Bà Nguyễn Thị Lệ",
-            "Chức vụ": "Phó Bí thư Thành ủy, Chủ tịch HĐND Thành phố",
-            "Địa chỉ": "86 Lê Thánh Tôn, Bến Nghé, Quận 1, TP Hồ Chí Minh",
+            "Nhóm": "D - NGUYÊN LĐ TỔNG CTY",
+            "Ban ngành": "Nguyên Lãnh đạo Tổng Công ty",
+            "Họ tên": "Chu Tiến Dũng",
+            "Chức vụ": "Nguyên Phó Bí thư TT Đảng ủy 10/2020 – 11/2021, Nguyên Tổng Giám đốc",
+            "Địa chỉ": "58 Trương Định, Phường Xuân Hòa, TP Hồ Chí Minh",
             "Số lượng": 1,
             "Người đề xuất": "Văn phòng HĐTV",
             "Lãnh đạo duyệt": "Nguyễn Phương Nam",
@@ -1673,6 +2046,89 @@ function downloadExcelTemplate() {
         console.error(err);
         if (window.showToast) {
             window.showToast("Lỗi khi tạo mẫu Excel: " + err.message, "error");
+        }
+    }
+}
+
+function ensureSignatureBlock() {
+    const editor = document.getElementById('rich-editor');
+    if (!editor) return;
+
+    // Check if it's the "anh Tài - cầu lông" document
+    const templateSelect = document.getElementById('doc-template-select');
+    const isAnhTaiCauLong = (templateSelect && templateSelect.value === 'anh-tai-cau-long') || 
+                            (editor.innerHTML.includes('Tặng bánh Trung thu năm 2026'));
+
+    if (isAnhTaiCauLong) {
+        if (!editor.querySelector('.doc-signature-table')) {
+            const table = editor.querySelector('table.doc-data-table') || editor.querySelector('table:has(thead)');
+            if (table) {
+                const sigDiv = document.createElement('div');
+                sigDiv.innerHTML = `
+                    <table class="doc-signature-table" style="width: 100%; border-collapse: collapse; border: none; font-size: 12px; margin-top: 30px; font-family: Tahoma, 'Segoe UI', sans-serif; page-break-inside: avoid;">
+                        <tr>
+                            <td style="width: 35%; text-align: center; vertical-align: top; padding: 0; line-height: 1.5;">
+                                <div class="sig-title-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
+                                    <span class="sig-title" style="font-weight: bold; text-transform: uppercase;">TỔNG GIÁM ĐỐC</span>
+                                    <button class="btn-edit-sig no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Sửa chức danh">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </div>
+                                <div style="height: 80px;"></div>
+                                <div class="sig-name-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
+                                    <span class="sig-name" style="font-weight: bold;">Nguyễn Phương Nam</span>
+                                    <button class="btn-edit-sig no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Sửa họ tên">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td style="width: 35%; text-align: center; vertical-align: top; padding: 0; line-height: 1.5;">
+                                <div class="sig-title-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
+                                    <span class="sig-title" style="font-weight: bold; text-transform: uppercase; display: block; text-align: center;">TL. CHÁNH VĂN PHÒNG<br><span style="font-size: 11px;">PHÓ CHÁNH VĂN PHÒNG</span></span>
+                                    <button class="btn-edit-sig no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Sửa chức danh">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </div>
+                                <div style="height: 62px;"></div>
+                                <div class="sig-name-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
+                                    <span class="sig-name" style="font-weight: bold;">Mai Xuân Chánh</span>
+                                    <button class="btn-edit-sig no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Sửa họ tên">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td style="width: 30%; text-align: center; vertical-align: top; padding: 0; line-height: 1.5;">
+                                <div class="sig-title-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
+                                    <span class="sig-title" style="font-weight: bold; text-transform: uppercase;">NGƯỜI LẬP</span>
+                                    <button class="btn-edit-sig no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Sửa chức danh">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </div>
+                                <div style="height: 80px;"></div>
+                                <div class="sig-name-wrapper" style="display: inline-flex; align-items: center; gap: 4px; justify-content: center; position: relative;">
+                                    <span class="sig-name" style="font-weight: bold;">Cao Minh Duy</span>
+                                    <button class="btn-edit-sig no-export" contenteditable="false" style="background: none; border: none; color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; padding: 2px; display: inline-flex; align-items: center; justify-content: center; outline: none;" title="Sửa họ tên">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                `;
+                const sigTable = sigDiv.firstElementChild;
+                
+                // Insert sigTable after table
+                if (table.nextSibling) {
+                    table.parentNode.insertBefore(sigTable, table.nextSibling);
+                } else {
+                    table.parentNode.appendChild(sigTable);
+                }
+                
+                // Auto trigger save to persist this self-healing addition
+                if (typeof triggerAutoSave === 'function') {
+                    triggerAutoSave();
+                }
+            }
         }
     }
 }

@@ -105,27 +105,30 @@
                 
                 <div class="card editor-card">
                     <div class="editor-toolbar">
-                        <!-- Templates Selector -->
-                        <div class="toolbar-group">
-                            <label for="doc-template-select"><i class="fa-solid fa-paste"></i> Mẫu văn bản:</label>
-                            <select id="doc-template-select" class="form-select select-sm">
-                                <option value="empty">-- Văn bản trống --</option>
-                                <option value="don-xin-nghi-phep">Đơn xin nghỉ phép</option>
-                                <option value="hop-dong-lao-dong">Hợp đồng lao động</option>
-                                <option value="giay-uy-quyen">Giấy ủy quyền</option>
-                                <option value="bien-ban-ban-giao">Biên bản bàn giao công việc</option>
-                                <option value="cong-van-hanh-chinh">Công văn hành chính</option>
-                                <option value="giay-moi-hop">Giấy mời họp</option>
-                                <option value="anh-tai-cau-long">anh Tài - cầu lông</option>
-                            </select>
-                        </div>
-                        
-                        <!-- File History Selector (Visible for excel templates) -->
-                        <div id="file-history-group" class="toolbar-group" style="display: none;">
-                            <label for="file-history-select"><i class="fa-solid fa-clock-rotate-left text-blue"></i> Lịch sử file:</label>
-                            <select id="file-history-select" class="form-select select-sm select-auto">
-                                <option value="">-- Chọn lịch sử file --</option>
-                            </select>
+                        <!-- Template and History vertical group -->
+                        <div class="toolbar-group-vertical" style="display: flex; flex-direction: column; gap: 6px; align-items: flex-start; justify-content: center; padding-right: 4px;">
+                            <!-- Templates Selector -->
+                            <div class="toolbar-group">
+                                <label for="doc-template-select" style="display: inline-block; width: 100px; font-weight: 600;"><i class="fa-solid fa-paste"></i> Mẫu văn bản:</label>
+                                <select id="doc-template-select" class="form-select select-sm" style="width: 220px;">
+                                    <option value="empty">-- Văn bản trống --</option>
+                                    <option value="don-xin-nghi-phep">Đơn xin nghỉ phép</option>
+                                    <option value="hop-dong-lao-dong">Hợp đồng lao động</option>
+                                    <option value="giay-uy-quyen">Giấy ủy quyền</option>
+                                    <option value="bien-ban-ban-giao">Biên bản bàn giao công việc</option>
+                                    <option value="cong-van-hanh-chinh">Công văn hành chính</option>
+                                    <option value="giay-moi-hop">Giấy mời họp</option>
+                                    <option value="anh-tai-cau-long">anh Tài - cầu lông</option>
+                                </select>
+                            </div>
+                            
+                            <!-- File History Selector (Visible for excel templates) -->
+                            <div id="file-history-group" class="toolbar-group" style="display: none;">
+                                <label for="file-history-select" style="display: inline-block; width: 100px; font-weight: 600;"><i class="fa-solid fa-clock-rotate-left text-blue"></i> Lịch sử file:</label>
+                                <select id="file-history-select" class="form-select select-sm select-auto" style="width: 220px;">
+                                    <option value="">-- Chọn lịch sử file --</option>
+                                </select>
+                            </div>
                         </div>
                         
                         <!-- Excel Import Button -->

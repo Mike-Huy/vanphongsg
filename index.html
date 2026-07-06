@@ -131,77 +131,83 @@
                             </div>
                         </div>
                         
-                        <!-- Excel Import Button -->
-                        <div class="toolbar-group">
-                            <button id="btn-excel-import" class="btn btn-secondary btn-sm" title="Nhập danh sách từ Excel"><i class="fa-solid fa-file-excel text-success"></i> Nhập Excel</button>
-                            <input type="file" id="excel-upload-input" accept=".xlsx, .xls, .csv" style="display: none;">
-                            <button id="btn-excel-template" class="btn btn-secondary btn-sm" title="Tải mẫu Excel mẫu"><i class="fa-solid fa-download text-success"></i> Mẫu Excel</button>
-                            <button id="btn-show-data" class="btn btn-secondary btn-sm" title="Xem bảng dữ liệu chi tiết"><i class="fa-solid fa-table"></i> Dữ liệu</button>
-                            <button id="btn-show-report" class="btn btn-secondary btn-sm" title="Xem báo cáo tổng hợp"><i class="fa-solid fa-chart-pie text-blue"></i> Báo cáo</button>
-                        </div>
+                        <div class="toolbar-divider" style="height: 38px;"></div>
 
-                        <div class="toolbar-divider"></div>
-
-                        <!-- Formatting Controls -->
-                        <div class="toolbar-group">
-                            <button class="btn-tool" data-command="bold" title="In đậm (Ctrl+B)"><i class="fa-solid fa-bold"></i></button>
-                            <button class="btn-tool" data-command="italic" title="In nghiêng (Ctrl+I)"><i class="fa-solid fa-italic"></i></button>
-                            <button class="btn-tool" data-command="underline" title="Gạch chân (Ctrl+U)"><i class="fa-solid fa-underline"></i></button>
-                            <button class="btn-tool" data-command="strikeThrough" title="Gạch ngang"><i class="fa-solid fa-strikethrough"></i></button>
-                        </div>
-
-                        <div class="toolbar-divider"></div>
-
-                        <div class="toolbar-group">
-                            <button class="btn-tool" data-command="justifyLeft" title="Canh trái"><i class="fa-solid fa-align-left"></i></button>
-                            <button class="btn-tool" data-command="justifyCenter" title="Canh giữa"><i class="fa-solid fa-align-center"></i></button>
-                            <button class="btn-tool" data-command="justifyRight" title="Canh phải"><i class="fa-solid fa-align-right"></i></button>
-                            <button class="btn-tool" data-command="justifyFull" title="Canh đều"><i class="fa-solid fa-align-justify"></i></button>
-                        </div>
-
-                        <div class="toolbar-divider"></div>
-
-                        <div class="toolbar-group">
-                            <button class="btn-tool" data-command="insertUnorderedList" title="Danh sách không thứ tự"><i class="fa-solid fa-list-ul"></i></button>
-                            <button class="btn-tool" data-command="insertOrderedList" title="Danh sách có thứ tự"><i class="fa-solid fa-list-ol"></i></button>
-                        </div>
-
-                        <div class="toolbar-divider"></div>
-
-                        <!-- Colors, Fonts and Sizes -->
-                        <div class="toolbar-group">
-                            <div class="color-picker-wrapper">
-                                <label for="text-color" title="Màu chữ"><i class="fa-solid fa-font text-blue"></i></label>
-                                <input type="color" id="text-color" value="#333333">
+                        <!-- Excel & Data Buttons (split into 2 rows) -->
+                        <div class="toolbar-group-vertical" style="display: flex; flex-direction: column; gap: 6px; align-items: flex-start; justify-content: center;">
+                            <div class="toolbar-group">
+                                <button id="btn-excel-import" class="btn btn-secondary btn-sm" title="Nhập danh sách từ Excel"><i class="fa-solid fa-file-excel text-success"></i> Nhập Excel</button>
+                                <input type="file" id="excel-upload-input" accept=".xlsx, .xls, .csv" style="display: none;">
+                                <button id="btn-excel-template" class="btn btn-secondary btn-sm" title="Tải mẫu Excel mẫu"><i class="fa-solid fa-download text-success"></i> Mẫu Excel</button>
                             </div>
-                            <div class="color-picker-wrapper">
-                                <label for="bg-color" title="Màu nền chữ"><i class="fa-solid fa-paint-roller text-blue"></i></label>
-                                <input type="color" id="bg-color" value="#ffffff">
+                            <div class="toolbar-group">
+                                <button id="btn-show-data" class="btn btn-secondary btn-sm" title="Xem bảng dữ liệu chi tiết"><i class="fa-solid fa-table"></i> Dữ liệu</button>
+                                <button id="btn-show-report" class="btn btn-secondary btn-sm" title="Xem báo cáo tổng hợp"><i class="fa-solid fa-chart-pie text-blue"></i> Báo cáo</button>
                             </div>
-                            <select id="font-family-select" class="form-select select-sm select-auto" title="Font chữ">
-                                <option value="'Tahoma', 'Segoe UI', sans-serif" selected>Tahoma</option>
-                                <option value="'Times New Roman', Times, serif">Times New Roman</option>
-                                <option value="'Arial', sans-serif">Arial</option>
-                                <option value="'Verdana', sans-serif">Verdana</option>
-                                <option value="'Courier New', Courier, monospace">Courier New</option>
-                                <option value="'Georgia', serif">Georgia</option>
-                            </select>
-                            <select id="font-size-select" class="form-select select-sm select-narrow" title="Kích cỡ chữ">
-                                <option value="1">Cỡ nhỏ</option>
-                                <option value="3" selected>Cỡ vừa</option>
-                                <option value="5">Cỡ lớn</option>
-                                <option value="7">Cỡ rất lớn</option>
-                            </select>
                         </div>
 
-                        <div class="toolbar-divider"></div>
+                        <div class="toolbar-divider" style="height: 38px;"></div>
 
-                        <!-- Actions -->
-                        <div class="toolbar-group align-right">
-                            <button id="btn-editor-clear" class="btn btn-danger btn-sm" title="Xóa toàn bộ"><i class="fa-solid fa-trash-can"></i> Xóa</button>
-                            <button id="btn-editor-copy" class="btn btn-secondary btn-sm" title="Sao chép văn bản"><i class="fa-regular fa-copy"></i> Copy</button>
-                            <button id="btn-editor-print" class="btn btn-secondary btn-sm" title="In hoặc xuất PDF"><i class="fa-solid fa-print"></i> In/PDF</button>
-                            <button id="btn-editor-download" class="btn btn-primary btn-sm" title="Tải xuống tệp .doc"><i class="fa-solid fa-download"></i> Tải .doc</button>
+                        <!-- Formatting Controls (split into 2 rows) -->
+                        <div class="toolbar-group-vertical" style="display: flex; flex-direction: column; gap: 6px; align-items: flex-start; justify-content: center;">
+                            <!-- Row 1: Basic text styles and alignments -->
+                            <div class="toolbar-group">
+                                <button class="btn-tool" data-command="bold" title="In đậm (Ctrl+B)"><i class="fa-solid fa-bold"></i></button>
+                                <button class="btn-tool" data-command="italic" title="In nghiêng (Ctrl+I)"><i class="fa-solid fa-italic"></i></button>
+                                <button class="btn-tool" data-command="underline" title="Gạch chân (Ctrl+U)"><i class="fa-solid fa-underline"></i></button>
+                                <button class="btn-tool" data-command="strikeThrough" title="Gạch ngang"><i class="fa-solid fa-strikethrough"></i></button>
+                                
+                                <div style="width: 1px; height: 16px; background-color: #ddd; margin: 0 4px;"></div>
+                                
+                                <button class="btn-tool" data-command="justifyLeft" title="Canh trái"><i class="fa-solid fa-align-left"></i></button>
+                                <button class="btn-tool" data-command="justifyCenter" title="Canh giữa"><i class="fa-solid fa-align-center"></i></button>
+                                <button class="btn-tool" data-command="justifyRight" title="Canh phải"><i class="fa-solid fa-align-right"></i></button>
+                                <button class="btn-tool" data-command="justifyFull" title="Canh đều"><i class="fa-solid fa-align-justify"></i></button>
+
+                                <div style="width: 1px; height: 16px; background-color: #ddd; margin: 0 4px;"></div>
+
+                                <button class="btn-tool" data-command="insertUnorderedList" title="Danh sách không thứ tự"><i class="fa-solid fa-list-ul"></i></button>
+                                <button class="btn-tool" data-command="insertOrderedList" title="Danh sách có thứ tự"><i class="fa-solid fa-list-ol"></i></button>
+                            </div>
+                            <!-- Row 2: Colors, Font Selection & Sizes -->
+                            <div class="toolbar-group">
+                                <div class="color-picker-wrapper">
+                                    <label for="text-color" title="Màu chữ"><i class="fa-solid fa-font text-blue"></i></label>
+                                    <input type="color" id="text-color" value="#333333">
+                                </div>
+                                <div class="color-picker-wrapper">
+                                    <label for="bg-color" title="Màu nền chữ"><i class="fa-solid fa-paint-roller text-blue"></i></label>
+                                    <input type="color" id="bg-color" value="#ffffff">
+                                </div>
+                                <select id="font-family-select" class="form-select select-sm select-auto" title="Font chữ" style="width: 150px;">
+                                    <option value="'Tahoma', 'Segoe UI', sans-serif" selected>Tahoma</option>
+                                    <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                                    <option value="'Arial', sans-serif">Arial</option>
+                                    <option value="'Verdana', sans-serif">Verdana</option>
+                                    <option value="'Courier New', Courier, monospace">Courier New</option>
+                                    <option value="'Georgia', serif">Georgia</option>
+                                </select>
+                                <select id="font-size-select" class="form-select select-sm select-narrow" title="Kích cỡ chữ" style="width: 90px;">
+                                    <option value="1">Cỡ nhỏ</option>
+                                    <option value="3" selected>Cỡ vừa</option>
+                                    <option value="5">Cỡ lớn</option>
+                                    <option value="7">Cỡ rất lớn</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="toolbar-divider" style="height: 38px;"></div>
+
+                        <!-- Actions Buttons (split into 2 rows, moved up to right side) -->
+                        <div class="toolbar-group-vertical align-right" style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end; justify-content: center; margin-left: auto;">
+                            <div class="toolbar-group">
+                                <button id="btn-editor-clear" class="btn btn-danger btn-sm" title="Xóa toàn bộ"><i class="fa-solid fa-trash-can"></i> Xóa</button>
+                                <button id="btn-editor-copy" class="btn btn-secondary btn-sm" title="Sao chép văn bản"><i class="fa-regular fa-copy"></i> Copy</button>
+                            </div>
+                            <div class="toolbar-group">
+                                <button id="btn-editor-print" class="btn btn-secondary btn-sm" title="In hoặc xuất PDF"><i class="fa-solid fa-print"></i> In/PDF</button>
+                                <button id="btn-editor-download" class="btn btn-primary btn-sm" title="Tải xuống tệp .doc"><i class="fa-solid fa-download"></i> Tải .doc</button>
+                            </div>
                         </div>
                     </div>
 
